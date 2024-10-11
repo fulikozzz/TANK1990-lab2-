@@ -57,7 +57,12 @@ void moveBullet(struct Bullet* bullet) {
         case 3: bullet->pos_x -= bullet->speed; break; 
         }
         printf("Координаты снаряда (%d, %d)\n", bullet->pos_x, bullet->pos_y);
-
+        
+        // Деактивировать пулю, если она вышла за пределы поля
+        if (bullet->pos_x < 0 || bullet->pos_x > 100 || bullet->pos_y < 0 || bullet->pos_y > 100) {
+            bullet->isActive = false;
+            printf("Снаряд вышел за пределы поля и деактивирован\n");
+        }
        
     }
 }
