@@ -8,6 +8,7 @@ struct PlayerTank {
     int pos_y;
     int vector;
     int speed;
+    int life_count;
 };
 
 // Танк противника
@@ -16,6 +17,7 @@ struct EnemyTank {
     int pos_y;
     int vector;
     int speed;
+    int life_count;
 };
 
 // Снаряд
@@ -24,6 +26,7 @@ struct Bullet {
     int pos_y;
     int vector;
     int speed;
+    int isActive;
 };
 
 // Игровое поле
@@ -59,10 +62,29 @@ void freePlayField(struct PlayField* field) {
     printf("Игровое поле удалено\n");
 }
 
+// Функция для инициализации игрока
+void initPlayerTank(struct PlayerTank* tank) {
+    tank->pos_x = 50;
+    tank->pos_y = 50;
+    tank->vector = 0;
+    tank->life_count = 3;
+    tank->speed = 1;
+}
+
+// Функция для инициализации врага
+void initEnemyTank(struct EnemyTank* tank) {
+    tank->pos_x = 50;
+    tank->pos_y = 45;
+    tank->vector = 0;
+    tank->speed = 1;
+    tank->life_count = 1; // Танк жив
+}
 int main()
 {
     setlocale(LC_ALL, "Rus");
     struct PlayField field;
+    struct PlayerTank player;
+    struct EnemyTank enemy;
     // Инициализация обьектов
     initPlayField(&field, 100, 100);
 
