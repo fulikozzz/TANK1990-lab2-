@@ -1,6 +1,7 @@
 ﻿#include <stdio.h>
 #include <locale.h>
 #include <stdlib.h>
+#include <conio.h>
 
 // Танк игрока
 struct PlayerTank {
@@ -9,6 +10,7 @@ struct PlayerTank {
     int vector;
     int speed;
     int life_count;
+    int isActive;
 };
 
 // Танк противника
@@ -105,15 +107,65 @@ void initEnemyTank(struct EnemyTank* tank) {
     tank->speed = 1;
     tank->life_count = 1; // Танк жив
 }
+
+// Функция для движения танка
+void moveTank(struct PlayerTank* tank) {
+    if (tank->isActive) {
+        switch (tank->vector) {
+        case 0: tank->pos_y -= tank->speed; break; // Вверх
+        case 1: tank->pos_x += tank->speed; break; // Вправо
+        case 2: tank->pos_y += tank->speed; break; // Вниз
+        case 3: tank->pos_x -= tank->speed; break; // Влево
+        }
+        printf("Танк игрока перемещен на позицию (%d, %d)\n", tank->pos_x, tank->pos_y);
+
+        // Проверка выхода за границы поля
+        if (tank->pos_x >= 100) {
+            tank->pos_x = 99; // Откат вправо
+            printf("Танк вышел за правую границу и возвращен на позицию (%d, %d)\n", tank->pos_x, tank->pos_y);
+        }
+        if (tank->pos_x <= 0) {
+            tank->pos_x = 1; // Откат влевоz
+            printf("Танк вышел за левую границу и возвращен на позицию (%d, %d)\n", tank->pos_x, tank->pos_y);
+        }
+        if (tank->pos_y >= 100) {
+            tank->pos_y = 99; // Откат вниз
+            printf("Танк вышел за нижнюю границу и возвращен на позицию (%d, %d)\n", tank->pos_y, tank->pos_x);
+        }
+        if (tank->pos_y <= 0) {
+            tank->pos_y = 1; // Откат вверх
+            printf("Танк вышел за верхнюю границу и возвращен на позицию (%d, %d)\n", tank->pos_y, tank->pos_x);
+        }
+    }
+}
+
 int main()
 {
     setlocale(LC_ALL, "Rus");
     struct PlayField field;
     struct PlayerTank player;
     struct EnemyTank enemy;
+    struct Bullet bullet;
     // Инициализация обьектов
     initPlayField(&field, 100, 100);
+    
+    char key;
+    int start = 1;
 
+    while (start) {
+        // Проверка ввода пользователя
+        if (_kbhit()) {
+            key = _getch();  // Получить символ ввода
+
+            switch (key) {
+            case 'W': case 'w': player.vector = 0; moveTank(&player); break; // Вверх
+            case 'D': case 'd': player.vector = 1; moveTank(&player); break; // Вправо
+            case 'S': case 's': player.vector = 2; moveTank(&player); break; // Вниз
+            case 'A': case 'a': player.vector = 3; moveTank(&player); break; // Влево
+            case 'Q': case 'q': start = 0; break;                            // Выйти
+            }
+
+        }
 
 
     // Освобождение ресурсов
