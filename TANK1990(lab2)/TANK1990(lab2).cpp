@@ -67,6 +67,14 @@ void moveBullet(struct Bullet* bullet) {
     }
 }
 
+// Функция попадания пули в танк противника
+void BulletHit(struct Bullet* bullet, struct EnemyTank* enemyPlayer) {
+    if (bullet->pos_x == enemyPlayer->pos_x && bullet->pos_y == enemyPlayer->pos_y) {
+        enemyPlayer->life_count = 0;   // Уничтожение танка
+        bullet->isActive = false;      // Деактивация пули
+    }
+}
+
 // Инициализация игрового поля
 void initPlayField(struct PlayField* field, int size_x, int size_y) {
     field->size_x = size_x;
