@@ -44,7 +44,7 @@ void shootBullet(struct Bullet* bullet, struct PlayerTank* tank) {
         bullet->pos_y = tank->pos_y;
         bullet->vector = tank->vector;
         bullet->speed = 1;
-        bullet->isActive = true;
+        bullet->isActive = 1;
         printf("Снаряд выпущен с позиции (%d, %d)\n", bullet->pos_x, bullet->pos_y);
     }
 }
@@ -62,7 +62,7 @@ void moveBullet(struct Bullet* bullet) {
         
         // Деактивировать пулю, если она вышла за пределы поля
         if (bullet->pos_x < 0 || bullet->pos_x > 100 || bullet->pos_y < 0 || bullet->pos_y > 100) {
-            bullet->isActive = false;
+            bullet->isActive = 0;
             printf("Снаряд вышел за пределы поля и деактивирован\n");
         }
        
@@ -83,7 +83,9 @@ void initPlayField(struct PlayField* field, int size_x, int size_y) {
     field->size_y = size_y;
 
     field->grid = (int**)malloc(size_x * sizeof(int*));
-    field->grid = (int**)malloc(size_y * sizeof(int*));
+    for (int i = 0; i < size_x; i++) {
+        field->grid[i] = (int*)malloc(size_y * sizeof(int));
+    }
 
     // Заполняем поле
     for (int i = 0; i < size_x; i++) {
@@ -160,7 +162,10 @@ int main()
     struct EnemyTank enemy;
     struct Bullet bullet;
     // Инициализация обьектов
+    initPlayerTank(&player);
+    initEnemyTank(&enemy);
     initPlayField(&field, 100, 100);
+    bullet.isActive = false;  // Пуля изначально не активна
     
     char key;
     int start = 1;
@@ -175,11 +180,21 @@ int main()
             case 'D': case 'd': player.vector = 1; moveTank(&player); break; // Вправо
             case 'S': case 's': player.vector = 2; moveTank(&player); break; // Вниз
             case 'A': case 'a': player.vector = 3; moveTank(&player); break; // Влево
-            case 'Q': case 'q': start = 0; break;                            // Выйти
+            case 'F': case 'f': shootBullet(&bullet, &player); break;        // Стрелять
+            case 'Q': case 'q': start = false; break;                        // Выйти
             }
-
         }
 
+        // Перемещение пули, если она активна
+        moveBullet(&bullet);
+        // Проверка попадания пули
+        if (bullet.isActive) {
+            BulletHit(&bullet, &enemy);
+            if (enemy.life_count == 0) {
+                printf("Вражеский танк уничтожен!\n");
+            }
+        }
+    }
 
     // Освобождение ресурсов
     freePlayField(&field);
