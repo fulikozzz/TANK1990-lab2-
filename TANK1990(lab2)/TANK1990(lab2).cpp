@@ -62,7 +62,6 @@ void moveBullet(struct Bullet* bullet) {
     }
 }
 
-
 // Инициализация игрового поля
 void initPlayField(struct PlayField* field, int size_x, int size_y) {
     field->size_x = size_x;
