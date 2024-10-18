@@ -69,6 +69,7 @@ struct Game {
     int level;
     struct Map map;
     struct Player player;
+    struct Enemy enemy;
     int gameOver;
 };
 
@@ -98,35 +99,31 @@ void initMap(struct Map* map) {
     }
     printf("Игровое поле проинициализировано с размерами 20 * 20\n");
 }
+// Иницицализация снаряда
+void initBullet(struct Bullet* bullet) {
+    bullet->isActive = 0;
+    bullet->speed = 2;
+    bullet->bulletType = 0;
+}
 
-// Инициализацмя игрока
+// Инициализация игрока
 void initPlayer(struct Player* player) {
     player->lives = 3;  
     player->score = 0;   
-    player->tank.pos.pos_x = 0;  
-    player->tank.pos.pos_y = 10;  
+    player->tank.pos.pos_x = 1;  
+    player->tank.pos.pos_y = 1;  
     player->tank.direction = 0;     
-    player->tank.speed = 1;     
-    // Инициализация снаярдов
-    for (int i = 0; i < 5; i++) {  
-        player->tank.bullets[i].isActive = 0;  
-        player->tank.bullets[i].speed = 0;
-        player->tank.bullets[i].bulletType = 0; 
-    }
+    player->tank.speed = 1;  
+    for (int i = 0; i < 5; i++) initBullet(&player->tank.bullets[i]);
 }
 
 // Инициализацмя противника
 void initEnemy(struct Enemy* enemy) {
-    enemy->tank.pos.pos_x = 20;  
-    enemy->tank.pos.pos_y = 10; 
+    enemy->tank.pos.pos_x = 19;  
+    enemy->tank.pos.pos_y = 19; 
     enemy->tank.direction = 0;     
     enemy->tank.speed = 1;       
-    // Инициализация cнарядов
-    for (int i = 0; i < 5; i++) { 
-        enemy->tank.bullets[i].isActive = 0;
-        enemy->tank.bullets[i].speed = 0;
-        enemy->tank.bullets[i].bulletType = 0;
-    }
+    for (int i = 0; i < 5; i++) initBullet(&enemy->tank.bullets[i]);
 }
 
 // Инициадихация игры
@@ -135,61 +132,102 @@ void initGame(struct Game* game) {
     game->gameOver = 0;
     initMap(&game->map);  // Инициализация карты
     initPlayer(&game->player);  // Инициализация игрока
+    initEnemy(&game->enemy); // Инициализация противника
 }
-/*
-// Функция для стрельбы
-void shootBullet(struct Bullet* bullet, struct PlayerTank* tank) {
-    if (!bullet->isActive) {
-        bullet->pos_x = tank->pos_x;
-        bullet->pos_y = tank->pos_y;
-        bullet->vector = tank->vector;
-        bullet->speed = 1;
-        bullet->isActive = 1;
-        printf("Снаряд выпущен с позиции (%d, %d)\n", bullet->pos_x, bullet->pos_y);
+
+// Функция проверки границ для танка
+int checkTankBorder(struct Tank* tank) {
+    struct Position pos = tank->pos;
+    int direction = tank->direction;
+    if (direction == 0 && pos.pos_y - tank->speed < 0 ||
+        direction == 1 && pos.pos_x + tank->speed >= 20 ||
+        direction == 2 && pos.pos_y + tank->speed >= 20 ||
+        direction == 3 && pos.pos_x - tank->speed < 0) {
+        tank->pos.pos_x = pos.pos_x;
+        tank->pos.pos_y = pos.pos_y;
+        printf("Танк уперся в границу! Его текущая позиция (%d;%d)\n", tank->pos.pos_x, tank->pos.pos_y);
+        return 1;
     }
+    return 0;
+}
+
+// Функция проверки границ для снаряда
+int checkBulletBorder(struct Bullet* bullet) {
+    if (bullet->pos.pos_x < 0 || bullet->pos.pos_x >= 20 || bullet->pos.pos_y < 0 || bullet->pos.pos_y >= 20) return 1;
+    return 0;
 }
 
 // Функция для перемещения пули
 void moveBullet(struct Bullet* bullet) {
-    if (bullet->isActive) {
-        switch (bullet->vector) {
-        case 0: bullet->pos_y -= bullet->speed; break; 
-        case 1: bullet->pos_x += bullet->speed; break; 
-        case 2: bullet->pos_y += bullet->speed; break; 
-        case 3: bullet->pos_x -= bullet->speed; break; 
+    while (bullet->isActive) {
+        switch (bullet->direction) {
+        case 0: bullet->pos.pos_x -= bullet->speed; break; 
+        case 1: bullet->pos.pos_y += bullet->speed; break; 
+        case 2: bullet->pos.pos_y += bullet->speed; break;
+        case 3: bullet->pos.pos_x -= bullet->speed; break;
         }
-        printf("Координаты снаряда (%d, %d)\n", bullet->pos_x, bullet->pos_y);
+        printf("Координаты снаряда (%d, %d) в направлении %d\n", bullet->pos.pos_x, bullet->pos.pos_y, bullet->direction);
         
         // Деактивировать пулю, если она вышла за пределы поля
-        if (bullet->pos_x < 0 || bullet->pos_x > 100 || bullet->pos_y < 0 || bullet->pos_y > 100) {
+        if (checkBulletBorder(bullet) == 1) { 
             bullet->isActive = 0;
-            printf("Снаряд вышел за пределы поля и деактивирован\n");
+            printf("Снаряд вышел за границы игрового поля в точке (%d;%d) и деактивирован\n", bullet->pos.pos_x, bullet->pos.pos_y);
         }
-       
+        //BulletHit(bullet);
     }
 }
-// Функция попадания пули в танк противника
-void BulletHit(struct Bullet* bullet, struct EnemyTank* enemyPlayer) {
-    if (bullet->pos_x == enemyPlayer->pos_x && bullet->pos_y == enemyPlayer->pos_y) {
-        enemyPlayer->life_count = 0;   // Уничтожение танка
-        bullet->isActive = false;      // Деактивация пули
+
+// Функция для стрельбы
+void shootBullet(struct Player* player) {
+    for (int i = 0; i < 5; i++) {
+        if (player->tank.bullets[i].isActive == 0) {
+            player->tank.bullets[i].pos.pos_x = player->tank.pos.pos_x;
+            player->tank.bullets[i].pos.pos_y = player->tank.pos.pos_y;
+            player->tank.bullets[i].direction = player->tank.direction;
+            player->tank.bullets[i].isActive = 1;
+            moveBullet(&player->tank.bullets[i]);
+            return;  // Прерываем цикл, т.к. один снаряд выпущен
+        }
     }
+    printf("Нет доступных снарядов.\n");
+}
+
+// Функция попадания пули в танк противника
+/*void BulletHit(struct Bullet* bullet) {
+        if (bullet->pos.pos_x == enemy->pos_x && bullet->pos_y == enemyPlayer->pos_y) {
+            enemyPlayer->life_count = 0;   // Уничтожение танка
+            bullet->isActive = false;      // Деактивация пули
+        }
 }*/
 
 // Функция для движения танка
 void moveTankPlayer(struct Player& PlayerTank) {
     if (_kbhit()) {
         char key = _getch();  // Получить символ ввода
-
         switch (key) {
-        case 'W': case 'w': PlayerTank.tank.direction = 0; PlayerTank.tank.pos.pos_y -= PlayerTank.tank.speed; break;
-        case 'D': case 'd': PlayerTank.tank.direction = 1; PlayerTank.tank.pos.pos_x += PlayerTank.tank.speed; break;
-        case 'S': case 's': PlayerTank.tank.direction = 2; PlayerTank.tank.pos.pos_y += PlayerTank.tank.speed; break;
-        case 'A': case 'a': PlayerTank.tank.direction = 3; PlayerTank.tank.pos.pos_x -= PlayerTank.tank.speed; break;
-            //case 'F': case 'f': shootBullet(&bullet, &player); break;        // Стрелять
-            //case 'Q': case 'q': start = false; break;                        // Выйти
+        case 'W': case 'w': 
+            PlayerTank.tank.direction = 0; 
+            if(!checkTankBorder(&PlayerTank.tank)) 
+            PlayerTank.tank.pos.pos_y -= PlayerTank.tank.speed; 
+            break;
+        case 'D': case 'd': 
+            PlayerTank.tank.direction = 1; 
+            if (!checkTankBorder(&PlayerTank.tank))
+            PlayerTank.tank.pos.pos_x += PlayerTank.tank.speed; 
+            break;
+        case 'S': case 's': 
+            PlayerTank.tank.direction = 2;
+            if (!checkTankBorder(&PlayerTank.tank))
+            PlayerTank.tank.pos.pos_y += PlayerTank.tank.speed; 
+            break;
+        case 'A': case 'a': 
+            PlayerTank.tank.direction = 3; 
+            if (!checkTankBorder(&PlayerTank.tank))
+            PlayerTank.tank.pos.pos_x -= PlayerTank.tank.speed; 
+            break;
+        case 'F': case 'f': shootBullet(&PlayerTank); break;
         }
-        printf("tank coords %d %d\n", PlayerTank.tank.pos.pos_x, PlayerTank.tank.pos.pos_y);
+        printf("Координаты танка: (%d;%d)\n", PlayerTank.tank.pos.pos_x, PlayerTank.tank.pos.pos_y);
     }
 }
 
@@ -202,8 +240,7 @@ int main()
     initGame(&game);
 
     // Основной игровой цикл
-    int start = 1;
-    while (start && !game.gameOver) {
+    while (!game.gameOver) {
         moveTankPlayer(game.player);
     }
     return 0;
