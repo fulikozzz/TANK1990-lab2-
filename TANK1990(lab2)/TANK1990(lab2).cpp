@@ -86,24 +86,24 @@ void initMap(struct Map* map) {
     // Инициализация стен
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 20; j++) {
-            map->walls[i][j].pos.pos_x = i;  // Позиция стены по X
-            map->walls[i][j].pos.pos_y = j;  // Позиция стены по Y
-            map->walls[i][j].type = 1;            // Тип стены (например, обычная стена)
+            map->walls[i][j].pos.pos_x = i;  
+            map->walls[i][j].pos.pos_y = j;  
+            map->walls[i][j].type = 1;        
         }
     }
     // Инициализация бонусов
     for (int i = 0; i < 4; i++) {
-        map->bonuses[i].pos.pos_x = rand() % 20;  // Рандомная позиция по X
-        map->bonuses[i].pos.pos_y = rand() % 20;  // Рандомная позиция по Y
-        map->bonuses[i].type = rand() % 2;         // Тип бонуса (например, улучшение)
-        map->bonuses[i].isActive = 1;              // Бонус активен
+        map->bonuses[i].pos.pos_x = rand() % 20;  
+        map->bonuses[i].pos.pos_y = rand() % 20;  
+        map->bonuses[i].type = rand() % 2;         
+        map->bonuses[i].isActive = 1;              
     }
     printf("Игровое поле проинициализировано с размерами 20 * 20\n");
 }
 // Иницицализация снаряда
 void initBullet(struct Bullet* bullet) {
     bullet->isActive = 0;
-    bullet->speed = 2;
+    bullet->speed = 1;
     bullet->bulletType = 0;
 }
 
