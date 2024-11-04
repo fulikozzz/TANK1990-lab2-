@@ -1,18 +1,12 @@
 ﻿#include "Position.h"
 #include "Bullet.h"
 #include "Player.h"
+#include "Enemy.h"
 
 #include <stdio.h>
 #include <locale.h>
 #include <stdlib.h>
 #include <conio.h>
-
-// Игрок
-/*struct Player {
-    Tank tank;
-    int lives;
-    int score;
-};*/
 
 // Противник
 struct Enemies {
@@ -251,7 +245,7 @@ int main() {
     initGame(&game);
 
     while (!game.gameOver) {
-        game.player.Get_Tank().Control();
+        game.player.Control();
         checkWin(&game);
     }
 

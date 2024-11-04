@@ -19,6 +19,6 @@ public:
 	void Set_Tank(Tank tank);
 	void Set_Lives(int lives);
 	void Set_Score(int score);
-
+	void Control();
 };
 

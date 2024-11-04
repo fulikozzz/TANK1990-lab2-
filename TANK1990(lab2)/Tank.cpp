@@ -57,31 +57,23 @@ bool Tank::Check_Border() {
     }
     return false;
 }
-void Tank::Control(){
-    if (_kbhit()) {
-        char key = _getch();  // Получить символ ввода
-        switch (key) {
-        case 'W': case 'w':
-            this->Set_Direction(UP);
+void Tank::Move(){
+    Direction dir = this->Get_Direction();
+        switch (dir) {
+        case UP:
             if (!this->Check_Border()) this->pos.Set_PosY(this->pos.Get_PosY() - this->Get_Speed());
             break;
-        case 'D': case 'd':
-            this->Set_Direction(RIGHT);
+        case RIGHT:
             if (!this->Check_Border()) this->pos.Set_PosX(this->pos.Get_PosX() + this->Get_Speed());
             break;
-        case 'S': case 's':
-            this->Set_Direction(DOWN);
+        case DOWN:
             if (!this->Check_Border()) this->pos.Set_PosY(this->pos.Get_PosY() + this->Get_Speed());
             break;
-        case 'A': case 'a':
-            this->Set_Direction(LEFT);
+        case LEFT:
             if (!this->Check_Border()) this->pos.Set_PosX(this->pos.Get_PosX() - this->Get_Speed());
             break;
-        case 'F': case 'f': Shoot(); break;
         }
         printf("Координаты танка: (%d;%d), Направление: %d \n", this->pos.Get_PosX(), this->pos.Get_PosY(), this->Get_Direction());
-
-    }
 }
 void Tank::Shoot(){
     for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {

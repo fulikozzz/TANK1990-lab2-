@@ -2,7 +2,7 @@
 #include "Position.h"
 #include "Bullet.h"
 
-#define MAX_BULLETS_ON_SCREEN 3
+#define MAX_BULLETS_ON_SCREEN 2
 
 class Tank
 {
@@ -32,7 +32,7 @@ public:
 
     //Setting
     bool Check_Border();
-    void Control();
+    void Move();
     void Shoot();
 };
 
