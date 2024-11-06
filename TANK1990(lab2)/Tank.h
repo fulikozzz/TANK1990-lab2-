@@ -2,6 +2,8 @@
 #include "Position.h"
 #include "Bullet.h"
 
+#include <vector>
+
 #define MAX_BULLETS_ON_SCREEN 2
 
 class Tank
@@ -11,26 +13,25 @@ private:
     Direction direction;
     int speed;
     int armor;
-    Bullet bullets[MAX_BULLETS_ON_SCREEN];
+    std::vector<Bullet> bullets;
 
 public:
     Tank();
-    Tank(int x, int y, Direction direction, int speed, int armor, Bullet bullets[]);
+    Tank(int x, int y, Direction direction, int speed, int armor);
     ~Tank();
     
     Position Get_Pos();
     Direction Get_Direction();
     int Get_Speed();
     int Get_Armor();
-    //int Get_Bullets();
+    std::vector<Bullet>& Get_Bullets();
 
     void Set_Pos(Position position);
     void Set_Direction(Direction dir);
     void Set_Speed(int speed);
     void Set_Armor(int armor);
-    //void Set_Bullets();
+    void Set_Bullet(int index, const Bullet& bullet);
 
-    //Setting
     bool Check_Border();
     void Move();
     void Shoot();

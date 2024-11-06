@@ -2,9 +2,8 @@
 
 Enemy::Enemy() {
 	Tank tank;
-	int armor = 1;
 	this->tank = tank;
-	this->armor = armor;
+	this->armor = 1;
 }
 
 Enemy::Enemy(Tank tank, int armor) {

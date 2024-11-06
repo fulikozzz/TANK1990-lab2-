@@ -17,7 +17,7 @@ public:
 	Bullet(int x, int y, Direction dir, int speed, bool isActive, int bulletType);
 	~Bullet();
 
-	Position Get_Pos();
+	Position Get_Pos();	
 	Direction Get_Direction();
 	int Get_Speed();
 	bool Get_IsActive();

@@ -2,8 +2,8 @@
 
 Base::Base() {
 
-	this->pos.Set_PosX(0);
-	this->pos.Set_PosY(0);
+	this->pos.Set_PosX(1);
+	this->pos.Set_PosY(1);
 	this->is_destroyed = false;
 }
 
@@ -18,6 +18,7 @@ Base::~Base() {
 }
 
 Position Base::Get_Pos() { return this->pos; }
+
 bool Base::Get_Is_Destroyed() { return this->is_destroyed; }
 
 void Base::Set_Pos(Position position) {

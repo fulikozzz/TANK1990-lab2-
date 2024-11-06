@@ -62,21 +62,27 @@ bool Bullet::Check_Border() {
 }
 
 void Bullet::Move() {
-	while (this->isActive == true) {
-		switch (this->direction)
-		{
-		case LEFT: this->pos.Set_PosX(this->pos.Get_PosX() - this->speed);
-			break;
-		case RIGHT: this->pos.Set_PosX(this->pos.Get_PosX() + this->speed);
-			break;
-		case UP: this->pos.Set_PosY(this->pos.Get_PosY() - this->speed);
-			break;
-		case DOWN:this->pos.Set_PosY(this->pos.Get_PosY() + this->speed);
-			break;
-		default:
-			break;
-		}
-		if (this->Check_Border() == true) this->isActive = 0;
-		//printf("Координаты снаряда (%d, %d) в направлении %d\n", this->pos.Get_PosX(), this->pos.Get_PosY(), this->Get_Direction());
+	if (!this->isActive) return; 
+
+	switch (this->direction) {
+	case LEFT:
+		this->pos.Set_PosX(this->pos.Get_PosX() - this->speed);
+		break;
+	case RIGHT:
+		this->pos.Set_PosX(this->pos.Get_PosX() + this->speed);
+		break;
+	case UP:
+		this->pos.Set_PosY(this->pos.Get_PosY() - this->speed);
+		break;
+	case DOWN:
+		this->pos.Set_PosY(this->pos.Get_PosY() + this->speed);
+		break;
+	default:
+		break;
 	}
+	
+	if (this->Check_Border()) {
+		this->isActive = false;
+	}
+	printf("Координаты снаряда (%d, %d) в направлении %d\n", this->pos.Get_PosX(), this->pos.Get_PosY(), this->Get_Direction());
 }

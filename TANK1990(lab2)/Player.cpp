@@ -47,7 +47,8 @@ void Player::Control() {
             this->tank.Set_Direction(LEFT);
             this->Get_Tank().Move();
             break;
-        case 'F': case 'f': this->Get_Tank().Shoot(); break;
+        case 'F': case 'f': this->tank.Shoot();
+            break;
         }
     }
 }
