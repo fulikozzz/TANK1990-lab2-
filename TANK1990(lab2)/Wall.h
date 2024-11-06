@@ -1,7 +1,7 @@
 #pragma once
 #include "Position.h"
 
-enum Type {EMPTY, IRON, BRIC_FULL, BRICK_HALF, BRICK_LOW, WOOD, ICE, BUSH, WATER};
+enum Type {EMPTY, IRON, BRIC_FULL, BRICK_HALF, BRICK_LOW, WOOD, ICE, BUSH, WATER, PLAYER, ENEMY};
 
 class Wall
 {

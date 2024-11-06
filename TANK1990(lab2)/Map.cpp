@@ -1,6 +1,6 @@
 #include "Map.h"
 #include "Wall.h"
-#include "Player.h"
+
 
 #include <fstream>
 #include <iostream>
@@ -14,12 +14,12 @@ Map::Map() {
             this->walls[i][j].Set_Type(EMPTY);
         }
     }
-    player_base.Get_Pos().Set_PosX(10);
-    player_base.Get_Pos().Set_PosY(20);
+    Position pos(10,20);
+    player_base.Set_Pos(pos);
     player_base.Set_Is_Destroyed(false);
     for (int i = 0; i < 3; i++) {
-        enemy_bases[i].Get_Pos().Set_PosX(5+5*i);
-        enemy_bases[i].Get_Pos().Set_PosY(1);
+        Position pos(1, 5 + 5 * i);
+        enemy_bases[i].Set_Pos(pos);
         enemy_bases[i].Set_Is_Destroyed(false);
     }
     printf("Игровое поле проинициализировано с размерами 20 * 20\n");
@@ -49,35 +49,36 @@ void Map::LoadFromFile(int level) {
                 switch (symbol)
                 {
                 case 0:
-                    this->walls[i][j].Set_Type(EMPTY);
+                    this->walls[j][i].Set_Type(EMPTY);
                     break;
                 case 1:
-                    this->walls[i][j].Set_Type(IRON);
+                    this->walls[j][i].Set_Type(IRON);
                     break;
                 case 2:
-                    this->walls[i][j].Set_Type(WOOD);
+                    this->walls[j][i].Set_Type(WOOD);
                     break;
                 case 3:
-                    this->walls[i][j].Set_Type(BRIC_FULL);
+                    this->walls[j][i].Set_Type(BRIC_FULL);
                     break;
                 case 4:
-                    this->walls[i][j].Set_Type(BRICK_HALF);
+                    this->walls[j][i].Set_Type(BRICK_HALF);
                     break;
                 case 5:
-                    this->walls[i][j].Set_Type(BRICK_LOW);
+                    this->walls[j][i].Set_Type(BRICK_LOW);
                     break;
                 case 6:
-                    this->walls[i][j].Set_Type(WATER);
+                    this->walls[j][i].Set_Type(WATER);
                     break;
                 case 7:
-                    this->walls[i][j].Set_Type(ICE);
+                    this->walls[j][i].Set_Type(ICE);
                     break;
                 case 8:
-                    this->walls[i][j].Set_Type(BUSH);
+                    this->walls[j][i].Set_Type(BUSH);
+                    break;
                 case 9:
-                    this->walls[i][j].Set_Type(EMPTY);
-                    this->player_base.Get_Pos().Set_PosX(i);
-                    this->player_base.Get_Pos().Set_PosY(j);
+                    this->walls[j][i].Set_Type(EMPTY);
+                    this->player_base.Get_Pos().Set_PosX(j);
+                    this->player_base.Get_Pos().Set_PosY(i);
                     this->player_base.Set_Is_Destroyed(false);
                     break;
                 default:
@@ -94,14 +95,33 @@ void Map::LoadFromFile(int level) {
     file.close();
 }
 
-void Map::Draw() { 
+void Map::Draw(Player player, std::vector<Enemy>& enemies) {
+    Wall temp_map[20][20];
+    for (int i = 0; i < 20; i++) {
+        for (int j = 0; j < 20; j++) {
+            if (player.Get_Tank().Get_Pos().Get_PosX() == i && player.Get_Tank().Get_Pos().Get_PosY() == j)
+                temp_map[i][j].Set_Type(PLAYER);
+            else
+                temp_map[i][j] = this->walls[i][j];
+        }
+        for (Enemy& enemy : enemies) {
+            int enemy_x = enemy.Get_Tank().Get_Pos().Get_PosX();
+            int enemy_y = enemy.Get_Tank().Get_Pos().Get_PosY();
+
+            // Если враг находится в текущей клетке, меняем тип клетки
+            if (enemy_x >= 0 && enemy_x < 20 && enemy_y >= 0 && enemy_y < 20) {
+                temp_map[enemy_x][enemy_y].Set_Type(ENEMY);  // Устанавливаем тип клетки для врага
+            }
+        }
+    }
+    
     system("cls");
     this->LoadFromFile(1);
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 20; j++) {
-            switch (walls[i][j].Get_Type()) {
+            switch (temp_map[j][i].Get_Type()) {
             case EMPTY:
-                std::cout << ". "; // Свободно
+                std::cout << "  "; // Свободно
                 break;
             case IRON:
                 std::cout << "# "; // Железная стена
@@ -127,6 +147,12 @@ void Map::Draw() {
             case BUSH:
                 std::cout << "b "; // Куст
                 break;
+            case PLAYER:
+                std::cout << "P "; // игрок
+                break;
+            case ENEMY:
+                std::cout << "E "; // игрок
+                break;
             default:
                 break;
             }
@@ -142,8 +168,8 @@ void Map::Draw() {
     
     for (int i = 0; i < 3; i++) {
         if (!enemy_bases[i].Get_Is_Destroyed()) {
-            std::cout << "E" << " на позиции: (" << enemy_bases[i].Get_Pos().Get_PosX() << ", "
-                << enemy_bases[i].Get_Pos().Get_PosY() << ")" << std::endl; // Отображение баз врагов
+            std::cout << "E" << " на позиции: (" << this->enemy_bases[i].Get_Pos().Get_PosX() << ", "
+                << this->enemy_bases[i].Get_Pos().Get_PosY() << ")" << std::endl; // Отображение баз врагов
         }
     }
 

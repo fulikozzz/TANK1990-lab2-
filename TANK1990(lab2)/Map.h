@@ -1,6 +1,8 @@
 #pragma once
 #include "Wall.h"
 #include "Base.h"
+#include "Player.h"
+#include "Enemy.h"
 
 #include <string>
 using namespace std;
@@ -16,6 +18,6 @@ public:
     Map();
     ~Map();
     void LoadFromFile(int level);
-    void Draw();
+    void Draw(Player player, std::vector<Enemy>& enemies);
 };
 

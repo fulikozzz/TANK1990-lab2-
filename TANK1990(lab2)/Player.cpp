@@ -27,7 +27,7 @@ void Player::Set_Tank(Tank tank) { this->tank = tank; }
 void Player::Set_Lives(int lives) { this->lives = lives; }
 void Player::Set_Score(int score) { this->score = score; }
 
-void Player::Control() {
+bool Player::Control() {
     if (_kbhit()) {
         char key = _getch();  
         switch (key) {
@@ -50,5 +50,7 @@ void Player::Control() {
         case 'F': case 'f': this->tank.Shoot();
             break;
         }
+        return true;
     }
+    return false;
 }

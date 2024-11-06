@@ -20,6 +20,13 @@ bool Game::Get_Game_Is_Over() { return this->game_is_over; }
 int Game::Get_Level() { return this->level; }
 int Game::Get_Amoun_Of_Enemies() { return this->amount_of_enemies; }
 Player& Game::Get_Player() { return this->player; }
+std::vector<Enemy>& Game::Get_Enemies() {
+    return this->enemies;
+}
+void Game::Set_Enemies(const std::vector<Enemy>& newEnemies) {
+    this->enemies = newEnemies;
+}
+
 
 void Game::Set_Game_Is_Over(bool game_is_over) { this->game_is_over = game_is_over; }
 void Game::Set_Level(int level) { this->level = level; }
@@ -30,7 +37,7 @@ void Game::Initialize_Enemies(int amount_of_enemies) {
 
     for (int i = 0; i < amount_of_enemies; i++) {
         Tank tank;
-        Position pos(1, 5); 
+        Position pos(1, 5*i); 
         tank.Set_Pos(pos);
         tank.Set_Direction(UP); 
         tank.Set_Speed(1); 
@@ -81,8 +88,8 @@ bool Game::Bullet_Hit(){
 }
 
 void Game::Update() {
-    //this->map.Draw();
-    this->player.Control();
+    
+    if(this->player.Control())    this->map.Draw(this->player, this->Get_Enemies());
 
     for (Bullet& bullet : this->player.Get_Tank().Get_Bullets()) {
         if (bullet.Get_IsActive()) {
