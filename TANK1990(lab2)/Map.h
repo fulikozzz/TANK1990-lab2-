@@ -17,7 +17,8 @@ private:
 public:
     Map();
     ~Map();
+
     void LoadFromFile(int level);
-    void Draw(Player player, std::vector<Enemy>& enemies);
+    void Draw(int level, Player player, std::vector<Enemy>& enemies);
 };
 

@@ -22,17 +22,19 @@ private:
 public:
     Game();
     ~Game();
+
     bool Get_Game_Is_Over();
     int Get_Level();
     int Get_Amoun_Of_Enemies();
     Player& Get_Player();
     std::vector<Enemy>& Get_Enemies();
-    void Set_Enemies(const std::vector<Enemy>& newEnemies);
-
+    Map Get_Map();
+    
     void Set_Game_Is_Over(bool game_is_over);
     void Set_Level(int level);
     void Set_Amoun_Of_Enemies(int amount_of_enemies);
-    
+    void Set_Enemies(const std::vector<Enemy>& newEnemies);
+
     void Initialize_Enemies(int amount_of_enemies);
     bool Bullet_Hit();
     void Update();

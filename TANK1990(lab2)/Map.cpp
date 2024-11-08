@@ -1,7 +1,6 @@
 #include "Map.h"
 #include "Wall.h"
 
-
 #include <fstream>
 #include <iostream>
 #include <filesystem>
@@ -22,7 +21,6 @@ Map::Map() {
         enemy_bases[i].Set_Pos(pos);
         enemy_bases[i].Set_Is_Destroyed(false);
     }
-    printf("Игровое поле проинициализировано с размерами 20 * 20\n");
 }
 
 Map::~Map() {
@@ -44,8 +42,7 @@ void Map::LoadFromFile(int level) {
     for (int i = 0; i < 20; ++i) {
         if (getline(file, line)) {
             for (int j = 0; j < 20; ++j) {
-                int symbol = line[j] - '0'; 
-                //std::cout << symbol;
+                int symbol = line[j] - '0';
                 switch (symbol)
                 {
                 case 0:
@@ -76,7 +73,7 @@ void Map::LoadFromFile(int level) {
                     this->walls[j][i].Set_Type(BUSH);
                     break;
                 case 9:
-                    this->walls[j][i].Set_Type(EMPTY);
+                    this->walls[j][i].Set_Type(PBASE);
                     this->player_base.Get_Pos().Set_PosX(j);
                     this->player_base.Get_Pos().Set_PosY(i);
                     this->player_base.Set_Is_Destroyed(false);
@@ -85,7 +82,6 @@ void Map::LoadFromFile(int level) {
                     break;
                 }
             }
-            //std::cout << "\n";
         }
         else {
             cerr << "Ошибка чтения строки " << i + 1 << std::endl;
@@ -95,7 +91,7 @@ void Map::LoadFromFile(int level) {
     file.close();
 }
 
-void Map::Draw(Player player, std::vector<Enemy>& enemies) {
+void Map::Draw(int level, Player player, std::vector<Enemy>& enemies) {
     Wall temp_map[20][20];
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 20; j++) {
@@ -108,20 +104,19 @@ void Map::Draw(Player player, std::vector<Enemy>& enemies) {
             int enemy_x = enemy.Get_Tank().Get_Pos().Get_PosX();
             int enemy_y = enemy.Get_Tank().Get_Pos().Get_PosY();
 
-            // Если враг находится в текущей клетке, меняем тип клетки
             if (enemy_x >= 0 && enemy_x < 20 && enemy_y >= 0 && enemy_y < 20) {
-                temp_map[enemy_x][enemy_y].Set_Type(ENEMY);  // Устанавливаем тип клетки для врага
+                temp_map[enemy_x][enemy_y].Set_Type(ENEMY);  
             }
         }
     }
     
     system("cls");
-    this->LoadFromFile(1);
+    this->LoadFromFile(level);
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 20; j++) {
             switch (temp_map[j][i].Get_Type()) {
             case EMPTY:
-                std::cout << "  "; // Свободно
+                std::cout << "  "; // Пустое поле
                 break;
             case IRON:
                 std::cout << "# "; // Железная стена
@@ -148,10 +143,10 @@ void Map::Draw(Player player, std::vector<Enemy>& enemies) {
                 std::cout << "b "; // Куст
                 break;
             case PLAYER:
-                std::cout << "P "; // игрок
+                std::cout << "P "; // Игрок
                 break;
             case ENEMY:
-                std::cout << "E "; // игрок
+                std::cout << "E "; // Противник
                 break;
             default:
                 break;
@@ -161,17 +156,15 @@ void Map::Draw(Player player, std::vector<Enemy>& enemies) {
         std::cout << std::endl;
     }
 
-    std::cout << "Base"; // Отображение базы игрока, можно изменить символ
+    std::cout << "P_Base";
     std::cout << " на позиции: (" << this->player_base.Get_Pos().Get_PosX() << ", "
         << player_base.Get_Pos().Get_PosY() << ")" << std::endl;
-
     
     for (int i = 0; i < 3; i++) {
         if (!enemy_bases[i].Get_Is_Destroyed()) {
-            std::cout << "E" << " на позиции: (" << this->enemy_bases[i].Get_Pos().Get_PosX() << ", "
-                << this->enemy_bases[i].Get_Pos().Get_PosY() << ")" << std::endl; // Отображение баз врагов
+            std::cout << "E_base "  << i << " на позиции: (" << this->enemy_bases[i].Get_Pos().Get_PosX() << ", "
+                << this->enemy_bases[i].Get_Pos().Get_PosY() << ")" << std::endl; 
         }
     }
-
     std::cout << std::endl;
 }

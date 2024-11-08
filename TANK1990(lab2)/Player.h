@@ -7,6 +7,7 @@ private:
 	Tank tank;
 	int lives;
 	int score;
+
 public:
 	Player();
 	Player(Tank tank, int lives, int score);

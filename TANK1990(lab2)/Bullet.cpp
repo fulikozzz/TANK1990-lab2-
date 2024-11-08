@@ -1,7 +1,5 @@
 #include "Bullet.h"
 
-#include <stdio.h>
-
 Bullet::Bullet() {
 	this->pos.Set_PosX(0);
 	this->pos.Set_PosY(0);
@@ -84,5 +82,4 @@ void Bullet::Move() {
 	if (this->Check_Border()) {
 		this->isActive = false;
 	}
-	printf("Координаты снаряда (%d, %d) в направлении %d\n", this->pos.Get_PosX(), this->pos.Get_PosY(), this->Get_Direction());
 }

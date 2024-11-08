@@ -30,10 +30,6 @@ void Bonus::Set_Pos(Position position) {
 	this->pos.Set_PosY(position.Get_PosY());
 }
 
-void Bonus::Set_Kind(KindOf kind) {
-	this->kind = kind;
-}
+void Bonus::Set_Kind(KindOf kind) { this->kind = kind; }
 
-void Bonus::Set_Activity_Time(int activity_time) {
-	this->activity_time = activity_time;
-}
+void Bonus::Set_Activity_Time(int activity_time) { this->activity_time = activity_time; }

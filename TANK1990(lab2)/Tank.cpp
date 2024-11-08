@@ -1,10 +1,9 @@
 #include "Tank.h"
 #include <conio.h>
-#include <stdio.h>
 
 Tank::Tank() {
     this->pos.Set_PosX(1);
-    this->pos.Set_PosY(0);
+    this->pos.Set_PosY(1);
     this->direction = LEFT;
     this->speed = 1;
     this->armor = 1;
@@ -17,6 +16,7 @@ Tank::Tank() {
         this->bullets[i].Set_BulletType(0);
     }
 }
+
 Tank::Tank(int x, int y, Direction dir, int speed, int armor) {
     this->pos.Set_PosX(x);
     this->pos.Set_PosY(y);
@@ -33,23 +33,32 @@ Tank::Tank(int x, int y, Direction dir, int speed, int armor) {
         this->bullets[i].Set_BulletType(0);
     }
 }
-Tank::~Tank() {
 
+Tank::~Tank() {
+    this->bullets.clear();
 }
 
 Position Tank::Get_Pos() { return this->pos; }
+
 Direction Tank::Get_Direction() { return this->direction; }
+
 int Tank::Get_Speed() { return this->speed; }
+
 int Tank::Get_Armor() { return this->armor; }
+
 std::vector<Bullet>& Tank::Get_Bullets() { return this->bullets; }
 
 void Tank::Set_Pos(Position position) {
     this->pos.Set_PosX(position.Get_PosX());
     this->pos.Set_PosY(position.Get_PosY());
 }
+
 void Tank::Set_Direction(Direction dir) { this->direction = dir; }
+
 void Tank::Set_Speed(int speed) { this->speed = speed; }
+
 void Tank::Set_Armor(int armor) { this->armor = armor; }
+
 void Tank::Set_Bullet(int index, const Bullet& bullet) {
     if (index >= 0 && index < MAX_BULLETS_ON_SCREEN) this->bullets[index] = bullet;
 }
@@ -63,11 +72,11 @@ bool Tank::Check_Border() {
         direction == LEFT && pos.Get_PosX() - this->Get_Speed() < 0) {
         this->pos.Set_PosX(pos.Get_PosX());
         this->pos.Set_PosY(pos.Get_PosY());
-        printf("Танк уперся в границу! Его текущая позиция (%d;%d)\n", this->pos.Get_PosX(), this->pos.Get_PosY());
         return true;
     }
     return false;
 }
+
 void Tank::Move(){
     Direction dir = this->Get_Direction();
         switch (dir) {
@@ -84,8 +93,8 @@ void Tank::Move(){
             if (!this->Check_Border()) this->pos.Set_PosX(this->pos.Get_PosX() - this->Get_Speed());
             break;
         }
-        printf("Координаты танка: (%d;%d), Направление: %d \n", this->pos.Get_PosX(), this->pos.Get_PosY(), this->Get_Direction());
 }
+
 void Tank::Shoot(){
     for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
         if (this->bullets[i].Get_IsActive() == false) {

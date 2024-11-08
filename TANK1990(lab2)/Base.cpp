@@ -26,6 +26,4 @@ void Base::Set_Pos(Position position) {
 	this->pos.Set_PosY(position.Get_PosY());
 }
 
-void Base::Set_Is_Destroyed(bool is_destroyed) {
-	this->is_destroyed = is_destroyed;
-}
+void Base::Set_Is_Destroyed(bool is_destroyed) { this->is_destroyed = is_destroyed; }
