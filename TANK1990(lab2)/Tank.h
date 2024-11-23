@@ -8,7 +8,7 @@
 
 class Tank
 {
-private:
+protected:
     Position pos;
     Direction direction;
     int speed;
@@ -18,7 +18,7 @@ private:
 public:
     Tank();
     Tank(int x, int y, Direction direction, int speed, int armor);
-    ~Tank();
+    virtual ~Tank();
     
     Position Get_Pos();
     Direction Get_Direction();
@@ -33,7 +33,7 @@ public:
     void Set_Bullet(int index, const Bullet& bullet);
 
     bool Check_Border();
-    void Move();
-    void Shoot();
+    virtual void Move() = 0;
+    virtual void Shoot() = 0;
 };
 

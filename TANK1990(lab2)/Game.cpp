@@ -5,7 +5,7 @@
 Game::Game() {
     this->game_is_over = false;
 	this->level = 1;
-    this->amount_of_enemies = 4;
+    this->amount_of_enemies = 2;
     this->map = Map();
     this->player = Player();
     Initialize_Enemies(amount_of_enemies);
@@ -41,13 +41,14 @@ void Game::Initialize_Enemies(int amount_of_enemies) {
     enemies.resize(amount_of_enemies); 
 
     for (int i = 0; i < amount_of_enemies; i++) {
-        Tank tank;
+        Enemy enemy; 
+        //Tank tank;
         Position pos(rand() % 20, rand() % 20);
-        tank.Set_Pos(pos);
-        tank.Set_Direction(UP); 
-        tank.Set_Speed(1); 
+        enemy.Set_Pos(pos);
+        enemy.Set_Direction(UP); 
+        enemy.Set_Speed(1); 
 
-        this->enemies[i].Set_Tank(tank); 
+        this->enemies[i] = enemy; 
         enemies[i].Set_Armor(1); 
     }
 }
@@ -64,10 +65,10 @@ bool Game::Bullet_Hit(){
     bool hitDetected = false; 
 
     for (int i = 0; i < this->amount_of_enemies; i++) {
-        for (Bullet& bullet : this->player.Get_Tank().Get_Bullets()) {
+        for (Bullet& bullet : this->player.Get_Bullets()) {
            if (bullet.Get_IsActive() &&
-                bullet.Get_Pos().Get_PosX() == this->enemies[i].Get_Tank().Get_Pos().Get_PosX() &&
-                bullet.Get_Pos().Get_PosY() == this->enemies[i].Get_Tank().Get_Pos().Get_PosY()) {
+                bullet.Get_Pos().Get_PosX() == this->enemies[i].Get_Pos().Get_PosX() &&
+                bullet.Get_Pos().Get_PosY() == this->enemies[i].Get_Pos().Get_PosY()) {
                 
                 bullet.Set_IsActive(false);
                 enemies.erase(enemies.begin() + i);
@@ -88,13 +89,13 @@ void Game::Update() {
         for (int i = 0; i < this->amount_of_enemies; i++) {
             std::cout << "Противник " << i + 1
                 << " находится на координатах ("
-                << enemies[i].Get_Tank().Get_Pos().Get_PosX() << ";"
-                << enemies[i].Get_Tank().Get_Pos().Get_PosY() << ") с направлением "
-                << enemies[i].Get_Tank().Get_Direction() << std::endl;
+                << enemies[i].Get_Pos().Get_PosX() << ";"
+                << enemies[i].Get_Pos().Get_PosY() << ") с направлением "
+                << enemies[i].Get_Direction() << std::endl;
         }
     }
 
-    for (Bullet& bullet : this->player.Get_Tank().Get_Bullets()) {
+    for (Bullet& bullet : this->player.Get_Bullets()) {
         if (bullet.Get_IsActive()) {
             if (Bullet_Hit()) std::cout << "Снаряд попал в противника на позиции (" << bullet.Get_Pos().Get_PosX() << ";" << bullet.Get_Pos().Get_PosY() << ") и уничтожил его. " << std::endl;
             bullet.Move();

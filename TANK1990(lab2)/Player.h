@@ -1,25 +1,27 @@
 #pragma once
 #include "Tank.h"
 
-class Player
+class Player : public Tank
 {
 private:
-	Tank tank;
+	//Tank tank;
 	int lives;
 	int score;
 
 public:
 	Player();
-	Player(Tank tank, int lives, int score);
+	Player(Position pos, int speed, Direction dir, int lives, int score);
 	~Player();
 
-	Tank& Get_Tank();
+	//Tank& Get_Tank();
 	int Get_Lives();
 	int Get_Score();
 	
-	void Set_Tank(Tank tank);
+	//void Set_Tank(Tank tank);
 	void Set_Lives(int lives);
 	void Set_Score(int score);
 	bool Control();
+	void Move() override;
+	void Shoot() override;
 };
 

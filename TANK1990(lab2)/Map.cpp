@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+#include <string.h>
 
 Map::Map() {
     for (int i = 0; i < 20; i++) {
@@ -30,7 +31,7 @@ Map::~Map() {
 void Map::LoadFromFile(int level) {
     std::string directoryPath = std::filesystem::current_path().string();
     string filename = "map_" + std::to_string(level) + ".txt";
-    
+
     ifstream file(filename);
 
     if (!file.is_open()) {
@@ -95,14 +96,14 @@ void Map::Draw(int level, Player player, std::vector<Enemy>& enemies) {
     Wall temp_map[20][20];
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 20; j++) {
-            if (player.Get_Tank().Get_Pos().Get_PosX() == i && player.Get_Tank().Get_Pos().Get_PosY() == j)
+            if (player.Get_Pos().Get_PosX() == i && player.Get_Pos().Get_PosY() == j)
                 temp_map[i][j].Set_Type(PLAYER);
             else
                 temp_map[i][j] = this->walls[i][j];
         }
         for (Enemy& enemy : enemies) {
-            int enemy_x = enemy.Get_Tank().Get_Pos().Get_PosX();
-            int enemy_y = enemy.Get_Tank().Get_Pos().Get_PosY();
+            int enemy_x = enemy.Get_Pos().Get_PosX();
+            int enemy_y = enemy.Get_Pos().Get_PosY();
 
             if (enemy_x >= 0 && enemy_x < 20 && enemy_y >= 0 && enemy_y < 20) {
                 temp_map[enemy_x][enemy_y].Set_Type(ENEMY);  

@@ -76,7 +76,7 @@ bool Tank::Check_Border() {
     }
     return false;
 }
-
+/*
 void Tank::Move(){
     Direction dir = this->Get_Direction();
         switch (dir) {
@@ -105,4 +105,4 @@ void Tank::Shoot(){
             return; 
         }
     }
-}
+}*/

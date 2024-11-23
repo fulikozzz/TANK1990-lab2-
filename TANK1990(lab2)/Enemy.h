@@ -1,24 +1,24 @@
 #pragma once
 #include "Tank.h"
 
-class Enemy
+class Enemy : public Tank
 {
 private:
-	Tank tank;
+	//Tank tank;
 	int armor;
 
 public:
 	Enemy();
-	Enemy(Tank tank, int armor);
+	Enemy(Position pos, int speed, Direction dir, int armor);
 	~Enemy();
 
-	Tank& Get_Tank();
+	//Tank& Get_Tank();
 	int Get_Armor();
 	
-	void Set_Tank(Tank tank);
+	//void Set_Tank(Tank tank);
 	void Set_Armor(int armor);
 	
-	void Move();
-	void Shoot();
+	void Move() override;
+	void Shoot() override;
 };
 
