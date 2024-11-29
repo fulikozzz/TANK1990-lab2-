@@ -22,13 +22,13 @@ Base::~Base() {
 
 }
 
-Position Base::Get_Pos() { return this->pos; }
+Position Base::Get_Pos() { return pos; }
 
-bool Base::Get_Is_Destroyed() { return this->is_destroyed; }
+bool Base::Get_Is_Destroyed() { return is_destroyed; }
 
 void Base::Set_Pos(Position position) {
-	this->pos.Set_PosX(position.Get_PosX());
-	this->pos.Set_PosY(position.Get_PosY());
+	pos.Set_PosX(position.Get_PosX());
+	pos.Set_PosY(position.Get_PosY());
 }
 
 void Base::Set_Is_Destroyed(bool is_destroyed) { this->is_destroyed = is_destroyed; }

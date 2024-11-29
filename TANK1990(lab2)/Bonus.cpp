@@ -25,15 +25,15 @@ Bonus::~Bonus() {
 
 }
 
-Position Bonus::Get_Pos() { return this->pos; }
+Position Bonus::Get_Pos() { return pos; }
 
-KindOf Bonus::Get_Kind() { return this->kind; }
+KindOf Bonus::Get_Kind() { return kind; }
 
-int Bonus::Get_Activity_Time() { return this->activity_time; }
+int Bonus::Get_Activity_Time() { return activity_time; }
 
 void Bonus::Set_Pos(Position position) {
-	this->pos.Set_PosX(position.Get_PosX());
-	this->pos.Set_PosY(position.Get_PosY());
+	pos.Set_PosX(position.Get_PosX());
+	pos.Set_PosY(position.Get_PosY());
 }
 
 void Bonus::Set_Kind(KindOf kind) { this->kind = kind; }

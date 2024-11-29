@@ -30,64 +30,55 @@ Bullet::~Bullet() {
 
 }
 
-Position Bullet::Get_Pos() { return this->pos; }
+Position Bullet::Get_Pos() { return pos; }
 
-Direction Bullet::Get_Direction() { return this->direction; }
+Direction Bullet::Get_Direction() { return direction; }
 
-int Bullet::Get_Speed() { return this->speed; }
+int Bullet::Get_Speed() { return speed; }
 
-bool Bullet::Get_IsActive() { return this->isActive; }
+bool Bullet::Get_IsActive() { return isActive; }
 
-int Bullet::Get_BulletType() { return this->bulletType; }
+int Bullet::Get_BulletType() { return bulletType; }
 
 void Bullet::Set_Pos(Position position) {
-	this->pos.Set_PosX(position.Get_PosX());
-	this->pos.Set_PosY(position.Get_PosY());
+	pos.Set_PosX(position.Get_PosX());
+	pos.Set_PosY(position.Get_PosY());
 }
 
-void Bullet::Set_Direction(Direction dir) {
+void Bullet::Set_Direction(Direction dir) { direction = dir; }
 
-	this->direction = dir;
-}
+void Bullet::Set_Speed(int speed) { this->speed = speed; }
 
-void Bullet::Set_Speed(int speed) {
-	this->speed = speed;
-}
+void Bullet::Set_IsActive(bool isActive) { this->isActive = isActive; }
 
-void Bullet::Set_IsActive(bool isActive) {
-	this->isActive = isActive;
-}
-
-void Bullet::Set_BulletType(int bulletType) {
-	this->bulletType = bulletType;
-}
+void Bullet::Set_BulletType(int bulletType) { this->bulletType = bulletType; }
 
 bool Bullet::Check_Border() {
-	if (this->pos.Get_PosX() < 0 || this->pos.Get_PosY() < 0 || this->pos.Get_PosX() >= 20 || this->pos.Get_PosY() >= 20) return true;
+	if (pos.Get_PosX() < 0 || pos.Get_PosY() < 0 || pos.Get_PosX() >= 20 || pos.Get_PosY() >= 20) return true;
 	return false;
 }
 
 void Bullet::Move() {
-	if (!this->isActive) return; 
+	if (!isActive) return; 
 
-	switch (this->direction) {
+	switch (direction) {
 	case LEFT:
-		this->pos.Set_PosX(this->pos.Get_PosX() - this->speed);
+		pos.Set_PosX(pos.Get_PosX() - speed);
 		break;
 	case RIGHT:
-		this->pos.Set_PosX(this->pos.Get_PosX() + this->speed);
+		pos.Set_PosX(pos.Get_PosX() + speed);
 		break;
 	case UP:
-		this->pos.Set_PosY(this->pos.Get_PosY() - this->speed);
+		pos.Set_PosY(pos.Get_PosY() - speed);
 		break;
 	case DOWN:
-		this->pos.Set_PosY(this->pos.Get_PosY() + this->speed);
+		pos.Set_PosY(pos.Get_PosY() + speed);
 		break;
 	default:
 		break;
 	}
 	
-	if (this->Check_Border()) {
-		this->isActive = false;
+	if (Check_Border()) {
+		isActive = false;
 	}
 }

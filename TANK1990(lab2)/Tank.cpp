@@ -48,22 +48,22 @@ Tank::~Tank() {
     this->bullets.clear();
 }
 
-Position Tank::Get_Pos() { return this->pos; }
+Position Tank::Get_Pos() { return pos; }
 
-Direction Tank::Get_Direction() { return this->direction; }
+Direction Tank::Get_Direction() { return direction; }
 
-int Tank::Get_Speed() { return this->speed; }
+int Tank::Get_Speed() { return speed; }
 
-int Tank::Get_Armor() { return this->armor; }
+int Tank::Get_Armor() { return armor; }
 
-std::vector<Bullet>& Tank::Get_Bullets() { return this->bullets; }
+std::vector<Bullet>& Tank::Get_Bullets() { return bullets; }
 
 void Tank::Set_Pos(Position position) {
-    this->pos.Set_PosX(position.Get_PosX());
-    this->pos.Set_PosY(position.Get_PosY());
+    pos.Set_PosX(position.Get_PosX());
+    pos.Set_PosY(position.Get_PosY());
 }
 
-void Tank::Set_Direction(Direction dir) { this->direction = dir; }
+void Tank::Set_Direction(Direction dir) { direction = dir; }
 
 void Tank::Set_Speed(int speed) { this->speed = speed; }
 
@@ -76,42 +76,42 @@ void Tank::Set_Bullet(int index, const Bullet& bullet) {
 bool Tank::Check_Border() {
     Position pos = this->Get_Pos();
     Direction direction = this->Get_Direction();
-    if (direction == UP && pos.Get_PosY() - this->Get_Speed() < 0 ||
-        direction == RIGHT && pos.Get_PosX() + this->Get_Speed() > 20 ||
-        direction == DOWN && pos.Get_PosY() + this->Get_Speed() > 20 ||
-        direction == LEFT && pos.Get_PosX() - this->Get_Speed() < 0) {
-        this->pos.Set_PosX(pos.Get_PosX());
-        this->pos.Set_PosY(pos.Get_PosY());
+    if (direction == UP && pos.Get_PosY() - Get_Speed() < 0 ||
+        direction == RIGHT && pos.Get_PosX() + Get_Speed() >= 20 ||
+        direction == DOWN && pos.Get_PosY() + Get_Speed() >= 20 ||
+        direction == LEFT && pos.Get_PosX() - Get_Speed() < 0) {
+        pos.Set_PosX(pos.Get_PosX());
+        pos.Set_PosY(pos.Get_PosY());
         return true;
     }
     return false;
 }
 
 void Tank::Move(){
-    Direction dir = this->Get_Direction();
+    Direction dir = Get_Direction();
         switch (dir) {
         case UP:
-            if (!this->Check_Border()) this->pos.Set_PosY(this->pos.Get_PosY() - this->Get_Speed());
+            if (!Check_Border()) pos.Set_PosY(pos.Get_PosY() - Get_Speed());
             break;
         case RIGHT:
-            if (!this->Check_Border()) this->pos.Set_PosX(this->pos.Get_PosX() + this->Get_Speed());
+            if (!Check_Border()) pos.Set_PosX(pos.Get_PosX() + Get_Speed());
             break;
         case DOWN:
-            if (!this->Check_Border()) this->pos.Set_PosY(this->pos.Get_PosY() + this->Get_Speed());
+            if (!Check_Border()) pos.Set_PosY(pos.Get_PosY() + Get_Speed());
             break;
         case LEFT:
-            if (!this->Check_Border()) this->pos.Set_PosX(this->pos.Get_PosX() - this->Get_Speed());
+            if (!Check_Border()) pos.Set_PosX(pos.Get_PosX() - Get_Speed());
             break;
         }
 }
 
 void Tank::Shoot(){
     for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
-        if (this->bullets[i].Get_IsActive() == false) {
-            this->bullets[i].Set_Pos(this->pos);
-            this->bullets[i].Set_Direction(direction);
-            this->bullets[i].Set_IsActive(true);
-            this->bullets[i].Move();
+        if (bullets[i].Get_IsActive() == false) {
+            bullets[i].Set_Pos(pos);
+            bullets[i].Set_Direction(direction);
+            bullets[i].Set_IsActive(true);
+            bullets[i].Move();
             return; 
         }
     }

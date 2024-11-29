@@ -18,10 +18,10 @@ Position::Position(const Position& other) {
 Position::~Position(){
 }
 
-void Position::Set_PosX(int valueX) { this->pos_x = valueX; }
+void Position::Set_PosX(int valueX) { pos_x = valueX; }
 
-void Position::Set_PosY(int valueY) { this->pos_y = valueY; }
+void Position::Set_PosY(int valueY) { pos_y = valueY; }
 
-int Position::Get_PosX() { return this->pos_x; }
+int Position::Get_PosX() { return pos_x; }
 
-int Position::Get_PosY() { return this->pos_y; }
+int Position::Get_PosY() { return pos_y; }

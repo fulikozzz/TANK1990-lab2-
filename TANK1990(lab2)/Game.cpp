@@ -26,19 +26,17 @@ Game::~Game() {
     this->enemies.clear(); 
 }
 
-bool Game::Get_Game_Is_Over() { return this->game_is_over; }
+bool Game::Get_Game_Is_Over() { return game_is_over; }
 
-int Game::Get_Level() { return this->level; }
+int Game::Get_Level() { return level; }
 
-int Game::Get_Amoun_Of_Enemies() { return this->amount_of_enemies; }
+int Game::Get_Amoun_Of_Enemies() { return amount_of_enemies; }
 
-Player& Game::Get_Player() { return this->player; }
+Player& Game::Get_Player() { return player; }
 
-std::vector<Enemy>& Game::Get_Enemies() {
-    return this->enemies;
-}
+std::vector<Enemy>& Game::Get_Enemies() { return enemies; }
 
-Map Game::Get_Map() { return this->map; }
+Map Game::Get_Map() { return map; }
 
 void Game::Set_Game_Is_Over(bool game_is_over) { this->game_is_over = game_is_over; }
 
@@ -59,14 +57,14 @@ void Game::Initialize_Enemies(int amount_of_enemies) {
         enemy.Set_Direction(UP); 
         enemy.Set_Speed(1); 
 
-        this->enemies[i] = enemy; 
+        enemies[i] = enemy; 
         enemies[i].Set_Armor(1); 
     }
 }
 
 bool Game::Victory_Check() {
     if (enemies.empty()) { 
-        this->game_is_over = true;
+        game_is_over = true;
         return true;
     }
     else return false;
@@ -95,9 +93,9 @@ bool Game::Bullet_Hit(){
 }
 
 void Game::Update() {
-    if (this->player.Control()) {
-        this->map.Draw(this->level, this->player, this->Get_Enemies());
-        for (int i = 0; i < this->amount_of_enemies; i++) {
+    if (player.Control()) {
+        map.Draw(level, player, Get_Enemies());
+        for (int i = 0; i < amount_of_enemies; i++) {
             std::cout << "ѕротивник " << i + 1
                 << " находитс€ на координатах ("
                 << enemies[i].Get_Pos().Get_PosX() << ";"
@@ -106,7 +104,7 @@ void Game::Update() {
         }
     }
 
-    for (Bullet& bullet : this->player.Get_Bullets()) {
+    for (Bullet& bullet : player.Get_Bullets()) {
         if (bullet.Get_IsActive()) {
             if (Bullet_Hit()) std::cout << "—нар€д попал в противника на позиции (" << bullet.Get_Pos().Get_PosX() << ";" << bullet.Get_Pos().Get_PosY() << ") и уничтожил его. " << std::endl;
             bullet.Move();

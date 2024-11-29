@@ -59,37 +59,37 @@ void Map::LoadFromFile(int level) {
                 switch (symbol)
                 {
                 case 0:
-                    this->walls[j][i].Set_Type(EMPTY);
+                    walls[j][i].Set_Type(EMPTY);
                     break;
                 case 1:
-                    this->walls[j][i].Set_Type(IRON);
+                    walls[j][i].Set_Type(IRON);
                     break;
                 case 2:
-                    this->walls[j][i].Set_Type(WOOD);
+                    walls[j][i].Set_Type(WOOD);
                     break;
                 case 3:
-                    this->walls[j][i].Set_Type(BRIC_FULL);
+                    walls[j][i].Set_Type(BRIC_FULL);
                     break;
                 case 4:
-                    this->walls[j][i].Set_Type(BRICK_HALF);
+                    walls[j][i].Set_Type(BRICK_HALF);
                     break;
                 case 5:
-                    this->walls[j][i].Set_Type(BRICK_LOW);
+                    walls[j][i].Set_Type(BRICK_LOW);
                     break;
                 case 6:
-                    this->walls[j][i].Set_Type(WATER);
+                    walls[j][i].Set_Type(WATER);
                     break;
                 case 7:
-                    this->walls[j][i].Set_Type(ICE);
+                    walls[j][i].Set_Type(ICE);
                     break;
                 case 8:
-                    this->walls[j][i].Set_Type(BUSH);
+                    walls[j][i].Set_Type(BUSH);
                     break;
                 case 9:
-                    this->walls[j][i].Set_Type(PBASE);
-                    this->player_base.Get_Pos().Set_PosX(j);
-                    this->player_base.Get_Pos().Set_PosY(i);
-                    this->player_base.Set_Is_Destroyed(false);
+                    walls[j][i].Set_Type(PBASE);
+                    player_base.Get_Pos().Set_PosX(j);
+                    player_base.Get_Pos().Set_PosY(i);
+                    player_base.Set_Is_Destroyed(false);
                     break;
                 default:
                     break;

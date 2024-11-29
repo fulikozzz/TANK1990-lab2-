@@ -39,9 +39,9 @@ Player::~Player() {
 
 //Tank& Player::Get_Tank() { return this->tank; }
 
-int Player::Get_Lives() { return this->lives; }
+int Player::Get_Lives() { return lives; }
 
-int Player::Get_Score() { return this->score; }
+int Player::Get_Score() { return score; }
 
 //void Player::Set_Tank(Tank tank) { this->tank = tank; }
 
@@ -50,30 +50,30 @@ void Player::Set_Lives(int lives) { this->lives = lives; }
 void Player::Set_Score(int score) { this->score = score; }
 
 void Player::Move() {
-    Direction dir = this->Get_Direction();
+    Direction dir = Get_Direction();
     switch (dir) {
     case UP:
-        if (!Check_Border()) this->pos.Set_PosY(this->pos.Get_PosY() - this->Get_Speed());
+        if (!Check_Border()) pos.Set_PosY(pos.Get_PosY() - Get_Speed());
         break;
     case RIGHT:
-        if (!this->Check_Border()) this->pos.Set_PosX(this->pos.Get_PosX() + this->Get_Speed());
+        if (!Check_Border()) pos.Set_PosX(pos.Get_PosX() + Get_Speed());
         break;
     case DOWN:
-        if (!this->Check_Border()) this->pos.Set_PosY(this->pos.Get_PosY() + this->Get_Speed());
+        if (!Check_Border()) pos.Set_PosY(pos.Get_PosY() + Get_Speed());
         break;
     case LEFT:
-        if (!this->Check_Border()) this->pos.Set_PosX(this->pos.Get_PosX() - this->Get_Speed());
+        if (!Check_Border()) pos.Set_PosX(pos.Get_PosX() - Get_Speed());
         break;
     }
 }
 
 void Player::Shoot() {
     for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
-        if (this->bullets[i].Get_IsActive() == false) {
-            this->bullets[i].Set_Pos(this->pos);
-            this->bullets[i].Set_Direction(direction);
-            this->bullets[i].Set_IsActive(true);
-            this->bullets[i].Move();
+        if (bullets[i].Get_IsActive() == false) {
+            bullets[i].Set_Pos(pos);
+            bullets[i].Set_Direction(direction);
+            bullets[i].Set_IsActive(true);
+            bullets[i].Move();
             return;
         }
     }
@@ -84,22 +84,22 @@ bool Player::Control() {
         char key = _getch();  
         switch (key) {
         case 'W': case 'w':
-            this->Set_Direction(UP);
-            this->Move();
+            Set_Direction(UP);
+            Move();
             break;
         case 'D': case 'd':
-            this->Set_Direction(RIGHT);
-            this->Move();
+            Set_Direction(RIGHT);
+            Move();
             break;
         case 'S': case 's':
-            this->Set_Direction(DOWN);
-            this->Move();
+            Set_Direction(DOWN);
+            Move();
             break;
         case 'A': case 'a':
-            this->Set_Direction(LEFT);
-            this->Move();
+            Set_Direction(LEFT);
+            Move();
             break;
-        case 'F': case 'f': this->Shoot();
+        case 'F': case 'f': Shoot();
             break;
         }
         return true;

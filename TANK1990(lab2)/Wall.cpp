@@ -21,9 +21,9 @@ Wall::~Wall() {
 
 }
 
-Position Wall::Get_Pos() { return this->pos; }
+Position Wall::Get_Pos() { return pos; }
 
-Type Wall::Get_Type() { return this->type; }
+Type Wall::Get_Type() { return type; }
 
 void Wall::Set_Pos(Position pos) { this->pos = pos; }
 

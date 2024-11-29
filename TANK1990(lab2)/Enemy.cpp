@@ -27,7 +27,7 @@ Enemy::~Enemy() {
 
 /*Tank& Enemy::Get_Tank() { return this->tank; }*/
 
-int Enemy::Get_Armor() { return this->armor; }
+int Enemy::Get_Armor() { return armor; }
 
 /*void Enemy::Set_Tank(Tank tank) { this->tank = tank; }*/
 
