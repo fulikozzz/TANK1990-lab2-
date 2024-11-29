@@ -30,6 +30,12 @@ public:
 	Bonus operator+(Bonus other);
 	Bonus operator-();
 	bool operator==(Bonus& other);
+	/*std::ostream& operator<<(std::ostream& output) {
+		output << "Bonus [Позиция: (" << pos.Get_PosX() << ", " << pos.Get_PosY()
+			<< "), Вид: " << kind
+			<< ", Время активности: " << activity_time << "]";
+		return output;
+	}*/
 	friend std::ostream& operator<<(std::ostream& output, Bonus& bonus);
 
 };

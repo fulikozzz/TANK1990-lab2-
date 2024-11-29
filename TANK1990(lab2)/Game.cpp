@@ -24,7 +24,7 @@ Game::Game(const Game& other) {
     enemies = std::make_unique<std::vector<Enemy>>(*other.enemies);
     //this->enemies = other.enemies;
     Initialize_Enemies(this->amount_of_enemies);
-    std::cout << "Вызов конструктора копирования" << endl; // Для отражения работы конструктора копирования
+    std::cout << "Вызов конструктора копирования" << endl;
 }
 
 Game::~Game() {

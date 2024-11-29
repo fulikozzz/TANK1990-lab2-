@@ -1,5 +1,5 @@
 ﻿#include "Game.h"
-
+#include "Bonus.h"
 #include <iostream>
 #include <locale.h>
 
@@ -25,6 +25,7 @@ int main() {
     // Вывод
     std::cout << "Bonus 1: " << bonus1 << std::endl;
     std::cout << "Bonus 2: " << bonus2 << std::endl;
+    //bonus1.operator<<(std::cout);
 
     // Сложение 
     Bonus bonus3 = bonus1 + bonus2;
@@ -51,13 +52,12 @@ int main() {
     
     Game game,
         game1(game); // Вызов конструктора копирования
+    std::cout << "Количество противников в game: " << game.Get_Amoun_Of_Enemies() << endl;
+    std::cout << "Количество противников в game1: " << game1.Get_Amoun_Of_Enemies() << endl;
+    
     game.Level_Decide();
-    while (!game1.Get_Game_Is_Over()) {
-        game1.Update();  
-    }
-    game1.Level_Decide();
     while (!game.Get_Game_Is_Over()) {
-        game.Update();
+        game.Update();  
     }
     return 0;
 }

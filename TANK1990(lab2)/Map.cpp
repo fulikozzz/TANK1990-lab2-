@@ -42,7 +42,7 @@ Map::~Map() {
 
 void Map::LoadFromFile(int level) {
     try {
-        std::string directoryPath = std::filesystem::current_path().string();
+        string directoryPath = std::filesystem::current_path().string();
         string filename = "map_" + std::to_string(level) + ".txt";
 
         ifstream file(filename);
