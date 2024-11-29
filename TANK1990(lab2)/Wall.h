@@ -12,6 +12,7 @@ private:
 public:
 	Wall();
 	Wall(int x, int y, Type type);
+	Wall(const Wall& other);
 	~Wall();
 
 	Position Get_Pos();

@@ -10,6 +10,7 @@ private:
 public:
 	Enemy();
 	Enemy(Position pos, int speed, Direction dir, int armor);
+	Enemy(const Enemy& other);
 	~Enemy();
 
 	//Tank& Get_Tank();

@@ -10,6 +10,11 @@ Position::Position(int valueX, int valueY) {
 	this->pos_y = valueY;
 }
 
+Position::Position(const Position& other) {
+	this->pos_x = other.pos_x;
+	this->pos_y = other.pos_y;
+}
+
 Position::~Position(){
 }
 

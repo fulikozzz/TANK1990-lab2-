@@ -16,6 +16,7 @@ private:
 
 public:
     Map();
+    Map(const Map& other);
     ~Map();
 
     void LoadFromFile(int level);

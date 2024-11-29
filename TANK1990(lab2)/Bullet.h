@@ -15,6 +15,7 @@ private:
 public:
 	Bullet();
 	Bullet(int x, int y, Direction dir, int speed, bool isActive, int bulletType);
+	Bullet(const Bullet& other);
 	~Bullet();
 
 	Position Get_Pos();	

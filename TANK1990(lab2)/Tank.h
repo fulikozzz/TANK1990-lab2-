@@ -17,7 +17,8 @@ protected:
 
 public:
     Tank();
-    Tank(int x, int y, Direction direction, int speed, int armor);
+    Tank(Position pos, Direction direction, int speed, int armor);
+    Tank(const Tank& other);
     virtual ~Tank();
     
     Position Get_Pos();
@@ -33,7 +34,7 @@ public:
     void Set_Bullet(int index, const Bullet& bullet);
 
     bool Check_Border();
-    virtual void Move() = 0;
-    virtual void Shoot() = 0;
+    virtual void Move();
+    virtual void Shoot();
 };
 

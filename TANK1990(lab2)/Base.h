@@ -10,6 +10,7 @@ private:
 public:
 	Base();
 	Base(int x, int y, bool is_destroyed);
+	Base(const Base& other);
 	~Base();
 	
 	Position Get_Pos();

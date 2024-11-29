@@ -7,6 +7,11 @@ Base::Base() {
 	this->is_destroyed = false;
 }
 
+Base::Base(const Base& other) {
+	this->pos = other.pos;
+	this->is_destroyed = other.is_destroyed;
+}
+
 Base::Base(int x, int y, bool is_destroyed) {
 	this->pos.Set_PosX(x);
 	this->pos.Set_PosY(y);

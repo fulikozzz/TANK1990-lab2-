@@ -9,6 +9,7 @@ private:
 public: 
 	Position();
 	Position(int valueX, int valueY);
+	Position(const Position& other);
 	~Position();
 	
 	int Get_PosX();

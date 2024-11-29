@@ -24,6 +24,18 @@ Map::Map() {
     }
 }
 
+Map::Map(const Map& other) {
+    for (int i = 0; i < 20; i++) {
+        for (int j = 0; j < 20; j++) {
+            this->walls[i][j] = other.walls[i][j];
+        }
+    }
+    this->player_base = other.player_base;
+    for (int i = 0; i < 3; i++) {
+        this->enemy_bases[i] = other.enemy_bases[i];
+    }
+}
+
 Map::~Map() {
 
 }

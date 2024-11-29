@@ -21,6 +21,7 @@ private:
 
 public:
     Game();
+    Game(const Game& other);
     ~Game();
 
     bool Get_Game_Is_Over();
@@ -40,5 +41,7 @@ public:
     void Update();
     bool Victory_Check();
 
+    bool Check_Border(Tank& tank, int width, int height);
+    bool Check_Border(const Bullet& bullet, const int width, const int height);
 };
 

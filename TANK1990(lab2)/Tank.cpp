@@ -2,6 +2,7 @@
 #include <conio.h>
 
 Tank::Tank() {
+    printf("Вызван конструктор базового класса\n");
     this->pos.Set_PosX(1);
     this->pos.Set_PosY(1);
     this->direction = LEFT;
@@ -17,9 +18,8 @@ Tank::Tank() {
     }
 }
 
-Tank::Tank(int x, int y, Direction dir, int speed, int armor) {
-    this->pos.Set_PosX(x);
-    this->pos.Set_PosY(y);
+Tank::Tank(Position pos, Direction dir, int speed, int armor) {
+    this->pos = pos;
     this->direction = dir;
     this->speed = speed;
     this->armor = armor;
@@ -31,6 +31,16 @@ Tank::Tank(int x, int y, Direction dir, int speed, int armor) {
         this->bullets[i].Set_Speed(1);
         this->bullets[i].Set_IsActive(0);
         this->bullets[i].Set_BulletType(0);
+    }
+}
+
+Tank::Tank(const Tank& other) {
+    this->pos = other.pos;
+    this->direction = other.direction;
+    this->speed = other.speed;
+    this->armor = other.armor;
+    for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
+        this->bullets[i] = other.bullets[i];
     }
 }
 
@@ -67,8 +77,8 @@ bool Tank::Check_Border() {
     Position pos = this->Get_Pos();
     Direction direction = this->Get_Direction();
     if (direction == UP && pos.Get_PosY() - this->Get_Speed() < 0 ||
-        direction == RIGHT && pos.Get_PosX() + this->Get_Speed() >= 20 ||
-        direction == DOWN && pos.Get_PosY() + this->Get_Speed() >= 20 ||
+        direction == RIGHT && pos.Get_PosX() + this->Get_Speed() > 20 ||
+        direction == DOWN && pos.Get_PosY() + this->Get_Speed() > 20 ||
         direction == LEFT && pos.Get_PosX() - this->Get_Speed() < 0) {
         this->pos.Set_PosX(pos.Get_PosX());
         this->pos.Set_PosY(pos.Get_PosY());
@@ -76,7 +86,7 @@ bool Tank::Check_Border() {
     }
     return false;
 }
-/*
+
 void Tank::Move(){
     Direction dir = this->Get_Direction();
         switch (dir) {
@@ -105,4 +115,4 @@ void Tank::Shoot(){
             return; 
         }
     }
-}*/
+}

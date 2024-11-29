@@ -12,6 +12,11 @@ Wall::Wall(int x, int y, Type type) {
 	this->type = type;
 }
 
+Wall::Wall(const Wall& other) {
+	this->pos = other.pos;
+	this->type = other.type;
+}
+
 Wall::~Wall() {
 
 }

@@ -14,6 +14,13 @@ Enemy::Enemy(Position pos, int speed, Direction dir, int armor) {
 	this->armor = armor;
 }
 
+Enemy::Enemy(const Enemy& other) {
+	this->pos = other.pos;
+	this->speed = other.speed;
+	this->direction = other.direction;
+	this->armor = other.armor;
+}
+
 Enemy::~Enemy() {
 
 }

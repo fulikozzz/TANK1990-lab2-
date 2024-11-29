@@ -18,6 +18,14 @@ Bullet::Bullet(int x, int y, Direction dir, int speed, bool isActive, int bullet
 	this->bulletType = bulletType;
 }
 
+Bullet::Bullet(const Bullet& other) {
+	this->pos = other.pos;
+	this->direction = other.direction;
+	this->speed = other.speed;
+	this->isActive = other.isActive;
+	this->bulletType = other.bulletType;
+}
+
 Bullet::~Bullet() {
 
 }

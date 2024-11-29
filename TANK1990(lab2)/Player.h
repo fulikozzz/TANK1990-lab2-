@@ -11,6 +11,7 @@ private:
 public:
 	Player();
 	Player(Position pos, int speed, Direction dir, int lives, int score);
+	Player(const Player& other);
 	~Player();
 
 	//Tank& Get_Tank();

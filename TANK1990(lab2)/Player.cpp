@@ -2,12 +2,16 @@
 #include "Position.h"
 
 #include <conio.h>
+#include <iostream>
 
 Player::Player() {
-	//Tank tank;
+    printf("Вызван конструктор производного класса\n");
+    Tank(); // вызов конструктора базового класса
+    /* Инициализируется конструктором
     this->Set_Pos(Position(0, 0));
     this->Set_Speed(1);
     this->Set_Direction(UP);
+    */
 	this->lives = 3;
 	this->score = 0;
 }
@@ -18,6 +22,15 @@ Player::Player(Position pos, int speed, Direction dir, int lives, int score) {
     this->Set_Direction(dir);
 	this->lives = lives;
 	this->score = score;
+}
+
+Player::Player(const Player& other) {
+    this->pos = other.pos;
+    this->speed = other.speed;
+    this->direction = other.direction;
+    this->armor = other.armor;
+    this->lives = other.lives;
+    this-> score= other.score;
 }
 
 Player::~Player() { 
@@ -40,7 +53,7 @@ void Player::Move() {
     Direction dir = this->Get_Direction();
     switch (dir) {
     case UP:
-        if (!this->Check_Border()) this->pos.Set_PosY(this->pos.Get_PosY() - this->Get_Speed());
+        if (!Check_Border()) this->pos.Set_PosY(this->pos.Get_PosY() - this->Get_Speed());
         break;
     case RIGHT:
         if (!this->Check_Border()) this->pos.Set_PosX(this->pos.Get_PosX() + this->Get_Speed());

@@ -11,6 +11,17 @@ Game::Game() {
     Initialize_Enemies(amount_of_enemies);
 }
 
+Game::Game(const Game& other) {
+    this->game_is_over = other.game_is_over;
+    this->level = other.level;
+    this->amount_of_enemies = other.amount_of_enemies + 2; // Для отражения работы конструктора копирования
+    this->map = other.map;
+    this->player = other.player;
+    this->enemies = other.enemies;
+    Initialize_Enemies(this->amount_of_enemies);
+    std::cout << "Вызов конструктора копирования" << endl; // Для отражения работы конструктора копирования
+}
+
 Game::~Game() {
     this->enemies.clear(); 
 }
@@ -106,4 +117,3 @@ void Game::Update() {
 
     if(Victory_Check()) std::cout << "\nВы победили!" << std::endl;
 }
- 
