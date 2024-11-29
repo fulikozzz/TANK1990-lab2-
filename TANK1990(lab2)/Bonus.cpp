@@ -39,3 +39,46 @@ void Bonus::Set_Pos(Position position) {
 void Bonus::Set_Kind(KindOf kind) { this->kind = kind; }
 
 void Bonus::Set_Activity_Time(int activity_time) { this->activity_time = activity_time; }
+
+
+/* Перегрузка операторов*/
+
+Bonus& Bonus::operator=(Bonus other) {
+    this->pos = other.pos;
+    this->kind = other.kind;
+    this->activity_time = other.activity_time;
+    return *this;
+}
+
+Bonus Bonus::operator+(Bonus other) {
+    Bonus result;
+    result.pos.Set_PosX(this->pos.Get_PosX() + other.pos.Get_PosX());
+    result.pos.Set_PosY(this->pos.Get_PosY() + other.pos.Get_PosY());
+    result.kind = (KindOf)((this->kind + other.kind) % 4);
+    result.activity_time = this->activity_time + other.activity_time;
+    return result;
+}
+
+Bonus Bonus::operator-() {
+    Bonus result;
+    result.pos.Set_PosX(-this->pos.Get_PosX());
+    result.pos.Set_PosY(-this->pos.Get_PosY());
+    result.kind = this->kind;
+    result.activity_time = -this->activity_time;
+    return result;
+}
+
+bool Bonus::operator==(Bonus& other) {
+    return this->pos.Get_PosX() == other.pos.Get_PosX() &&
+        this->activity_time == other.activity_time &&
+        this->kind == other.kind;
+
+}
+
+std::ostream& operator<<(std::ostream& output, Bonus& bonus) {
+    output << "Bonus [Позиция: (" << bonus.pos.Get_PosX() << ", " << bonus.pos.Get_PosY()
+        << "), Вид: " << bonus.kind
+        << ", Время активности: " << bonus.activity_time << "]";
+    return output;
+}
+
