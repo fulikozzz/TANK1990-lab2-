@@ -29,10 +29,11 @@ int main() {
 
     Game game,
         game1(game); // Вызов конструктора копирования
-
+    game.Level_Decide();
     while (!game1.Get_Game_Is_Over()) {
         game1.Update();  
     }
+    game1.Level_Decide();
     while (!game.Get_Game_Is_Over()) {
         game.Update();
     }

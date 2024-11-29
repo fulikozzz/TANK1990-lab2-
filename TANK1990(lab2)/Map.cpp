@@ -41,67 +41,81 @@ Map::~Map() {
 }
 
 void Map::LoadFromFile(int level) {
-    std::string directoryPath = std::filesystem::current_path().string();
-    string filename = "map_" + std::to_string(level) + ".txt";
+    try {
+        std::string directoryPath = std::filesystem::current_path().string();
+        string filename = "map_" + std::to_string(level) + ".txt";
 
-    ifstream file(filename);
+        ifstream file(filename);
 
-    if (!file.is_open()) {
-        cerr << "Ошибка открытия файла: " << filename << std::endl;
-        return;
-    }
+        if (!file.is_open()) {
+            throw runtime_error("Ошибка открытия файла: " + filename);
+        }
 
-    string line;
-    for (int i = 0; i < 20; ++i) {
-        if (getline(file, line)) {
-            for (int j = 0; j < 20; ++j) {
-                int symbol = line[j] - '0';
-                switch (symbol)
-                {
-                case 0:
-                    walls[j][i].Set_Type(EMPTY);
-                    break;
-                case 1:
-                    walls[j][i].Set_Type(IRON);
-                    break;
-                case 2:
-                    walls[j][i].Set_Type(WOOD);
-                    break;
-                case 3:
-                    walls[j][i].Set_Type(BRIC_FULL);
-                    break;
-                case 4:
-                    walls[j][i].Set_Type(BRICK_HALF);
-                    break;
-                case 5:
-                    walls[j][i].Set_Type(BRICK_LOW);
-                    break;
-                case 6:
-                    walls[j][i].Set_Type(WATER);
-                    break;
-                case 7:
-                    walls[j][i].Set_Type(ICE);
-                    break;
-                case 8:
-                    walls[j][i].Set_Type(BUSH);
-                    break;
-                case 9:
-                    walls[j][i].Set_Type(PBASE);
-                    player_base.Get_Pos().Set_PosX(j);
-                    player_base.Get_Pos().Set_PosY(i);
-                    player_base.Set_Is_Destroyed(false);
-                    break;
-                default:
-                    break;
+        string line;
+        for (int i = 0; i < 20; ++i) {
+            if (getline(file, line)) {
+                if (line.length() > 20 || line.length() < 20) throw runtime_error("Строка: " + to_string(i + 1) + " имеет некорректную длину!");
+                for (int j = 0; j < 20; ++j) {
+                    int symbol = line[j] - '0';
+                    switch (symbol)
+                    {
+                    case 0:
+                        walls[j][i].Set_Type(EMPTY);
+                        break;
+                    case 1:
+                        walls[j][i].Set_Type(IRON);
+                        break;
+                    case 2:
+                        walls[j][i].Set_Type(WOOD);
+                        break;
+                    case 3:
+                        walls[j][i].Set_Type(BRIC_FULL);
+                        break;
+                    case 4:
+                        walls[j][i].Set_Type(BRICK_HALF);
+                        break;
+                    case 5:
+                        walls[j][i].Set_Type(BRICK_LOW);
+                        break;
+                    case 6:
+                        walls[j][i].Set_Type(WATER);
+                        break;
+                    case 7:
+                        walls[j][i].Set_Type(ICE);
+                        break;
+                    case 8:
+                        walls[j][i].Set_Type(BUSH);
+                        break;
+                    case 9:
+                        walls[j][i].Set_Type(PBASE);
+                        player_base.Get_Pos().Set_PosX(j);
+                        player_base.Get_Pos().Set_PosY(i);
+                        player_base.Set_Is_Destroyed(false);
+                        break;
+                    default:
+                        throw invalid_argument("Неизвестный символ в строке " + to_string(i + 1) + "!");
+                        break;
+                    }
                 }
             }
+            else {
+                throw runtime_error("Ошибка чтения строки " + to_string(i + 1));
+            }
         }
-        else {
-            cerr << "Ошибка чтения строки " << i + 1 << std::endl;
-            break;
-        }
+        file.close();
     }
-    file.close();
+    catch(const runtime_error& e) {
+        cerr << "Ошибка в процессе выполнения: " << e.what() << endl;
+        return;
+    }
+    catch (const exception& e) {
+        cerr << "Ошибка: " << e.what() << endl;
+        return;
+    }
+    catch (...) {
+        cerr << "Неизвестная ошибка!" << endl;
+        return;
+    }
 }
 
 void Map::Draw(int level, Player player, std::vector<Enemy>& enemies) {

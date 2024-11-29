@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+int Game::level = 1;
+
 Game::Game() {
     this->game_is_over = false;
 	this->level = 1;
@@ -40,7 +42,7 @@ Map Game::Get_Map() { return map; }
 
 void Game::Set_Game_Is_Over(bool game_is_over) { this->game_is_over = game_is_over; }
 
-void Game::Set_Level(int level) { this->level = level; }
+void Game::Set_Level(int new_level) { level = new_level; }
 
 void Game::Set_Amoun_Of_Enemies(int amount_of_enemies) { this->amount_of_enemies = amount_of_enemies; }
 
@@ -114,4 +116,21 @@ void Game::Update() {
     }
 
     if(Victory_Check()) std::cout << "\nВы победили!" << std::endl;
+}
+
+int Game::Level_Decide() {
+    cout << "Введите номер уровня: ";
+    int inp_level;
+    try {
+        cin >> inp_level;
+        if (inp_level < 0)
+            throw invalid_argument("Введен неверный номер!");
+        else if (inp_level > 3)
+            throw invalid_argument("Введен невозможный номер!");
+        else Set_Level(inp_level);
+    }
+    catch (const exception& e) {
+        cerr << "Ошибка: " << e.what() << "Установлен уровень 1" << endl;
+        Set_Level(1);
+    }
 }

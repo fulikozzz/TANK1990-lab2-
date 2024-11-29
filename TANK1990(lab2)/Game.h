@@ -13,7 +13,7 @@ class Game
 {
 private:
     bool game_is_over;
-	int level;
+	static int level;
     Map map;
     Player player;
     int amount_of_enemies;
@@ -25,14 +25,14 @@ public:
     ~Game();
 
     bool Get_Game_Is_Over();
-    int Get_Level();
+    static int Get_Level();
     int Get_Amoun_Of_Enemies();
     Player& Get_Player();
     std::vector<Enemy>& Get_Enemies();
     Map Get_Map();
     
     void Set_Game_Is_Over(bool game_is_over);
-    void Set_Level(int level);
+    static void Set_Level(int level);
     void Set_Amoun_Of_Enemies(int amount_of_enemies);
     void Set_Enemies(const std::vector<Enemy>& newEnemies);
 
@@ -43,5 +43,7 @@ public:
 
     bool Check_Border(Tank& tank, int width, int height);
     bool Check_Border(const Bullet& bullet, const int width, const int height);
+
+    int Level_Decide();
 };
 
