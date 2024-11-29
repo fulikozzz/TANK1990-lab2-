@@ -10,6 +10,8 @@ Game::Game() {
     this->amount_of_enemies = 2;
     this->map = Map();
     this->player = Player();
+    //**
+    enemies = std::make_unique<std::vector<Enemy>>();
     Initialize_Enemies(amount_of_enemies);
 }
 
@@ -19,13 +21,14 @@ Game::Game(const Game& other) {
     this->amount_of_enemies = other.amount_of_enemies + 2; // ƒл€ отражени€ работы конструктора копировани€
     this->map = other.map;
     this->player = other.player;
-    this->enemies = other.enemies;
+    enemies = std::make_unique<std::vector<Enemy>>(*other.enemies);
+    //this->enemies = other.enemies;
     Initialize_Enemies(this->amount_of_enemies);
     std::cout << "¬ызов конструктора копировани€" << endl; // ƒл€ отражени€ работы конструктора копировани€
 }
 
 Game::~Game() {
-    this->enemies.clear(); 
+    //this->enemies.clear(); 
 }
 
 bool Game::Get_Game_Is_Over() { return game_is_over; }
@@ -36,7 +39,7 @@ int Game::Get_Amoun_Of_Enemies() { return amount_of_enemies; }
 
 Player& Game::Get_Player() { return player; }
 
-std::vector<Enemy>& Game::Get_Enemies() { return enemies; }
+std::vector<Enemy>& Game::Get_Enemies() { return *enemies; /* return enemies;*/ }
 
 Map Game::Get_Map() { return map; }
 
@@ -46,10 +49,11 @@ void Game::Set_Level(int new_level) { level = new_level; }
 
 void Game::Set_Amoun_Of_Enemies(int amount_of_enemies) { this->amount_of_enemies = amount_of_enemies; }
 
-void Game::Set_Enemies(const std::vector<Enemy>& newEnemies) { this->enemies = newEnemies; }
+void Game::Set_Enemies(const std::vector<Enemy>& newEnemies) { *enemies = newEnemies; /**enemies = newEnemies;*/ }
 
 void Game::Initialize_Enemies(int amount_of_enemies) {
-    enemies.resize(amount_of_enemies); 
+    //enemies.resize(amount_of_enemies);
+    enemies->resize(amount_of_enemies); 
 
     for (int i = 0; i < amount_of_enemies; i++) {
         Enemy enemy; 
@@ -59,13 +63,16 @@ void Game::Initialize_Enemies(int amount_of_enemies) {
         enemy.Set_Direction(UP); 
         enemy.Set_Speed(1); 
 
-        enemies[i] = enemy; 
-        enemies[i].Set_Armor(1); 
+        //enemies[i] = enemy;
+        //enemies[i].Set_Armor(1);
+        enemies->at(i) = enemy;
+        enemies->at(i).Set_Armor(1);
     }
 }
 
 bool Game::Victory_Check() {
-    if (enemies.empty()) { 
+    // if(enemies.empty()){
+    if (enemies->empty()) {
         game_is_over = true;
         return true;
     }
@@ -78,11 +85,11 @@ bool Game::Bullet_Hit(){
     for (int i = 0; i < this->amount_of_enemies; i++) {
         for (Bullet& bullet : this->player.Get_Bullets()) {
            if (bullet.Get_IsActive() &&
-                bullet.Get_Pos().Get_PosX() == this->enemies[i].Get_Pos().Get_PosX() &&
-                bullet.Get_Pos().Get_PosY() == this->enemies[i].Get_Pos().Get_PosY()) {
+                bullet.Get_Pos()->Get_PosX() == this->enemies->at(i).Get_Pos().Get_PosX() &&
+                bullet.Get_Pos()->Get_PosY() == this->enemies->at(i).Get_Pos().Get_PosY()) {
                 
                 bullet.Set_IsActive(false);
-                enemies.erase(enemies.begin() + i);
+                enemies->erase(enemies->begin() + i);
                 this->amount_of_enemies -= 1;
 
                 hitDetected = true;
@@ -100,18 +107,18 @@ void Game::Update() {
         for (int i = 0; i < amount_of_enemies; i++) {
             std::cout << "ѕротивник " << i + 1
                 << " находитс€ на координатах ("
-                << enemies[i].Get_Pos().Get_PosX() << ";"
-                << enemies[i].Get_Pos().Get_PosY() << ") с направлением "
-                << enemies[i].Get_Direction() << std::endl;
+                << enemies->at(i).Get_Pos().Get_PosX() << ";"
+                << enemies->at(i).Get_Pos().Get_PosY() << ") с направлением "
+                << enemies->at(i).Get_Direction() << std::endl;
         }
     }
 
     for (Bullet& bullet : player.Get_Bullets()) {
         if (bullet.Get_IsActive()) {
-            if (Bullet_Hit()) std::cout << "—нар€д попал в противника на позиции (" << bullet.Get_Pos().Get_PosX() << ";" << bullet.Get_Pos().Get_PosY() << ") и уничтожил его. " << std::endl;
+            if (Bullet_Hit()) std::cout << "—нар€д попал в противника на позиции (" << bullet.Get_Pos()->Get_PosX() << ";" << bullet.Get_Pos()->Get_PosY() << ") и уничтожил его. " << std::endl;
             bullet.Move();
-            std::cout << " оординаты снар€да (" << bullet.Get_Pos().Get_PosX() << ";" 
-                << bullet.Get_Pos().Get_PosY() << ") в направлении (" << bullet.Get_Direction() << ")" << std::endl;
+            std::cout << " оординаты снар€да (" << bullet.Get_Pos()->Get_PosX() << ";" 
+                << bullet.Get_Pos()->Get_PosY() << ") в направлении (" << bullet.Get_Direction() << ")" << std::endl;
         }
     }
 

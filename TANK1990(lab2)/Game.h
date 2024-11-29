@@ -6,7 +6,7 @@
 #include "Bonus.h"
 
 #include <vector>
-
+#include <memory>
 using namespace std;
 
 class Game
@@ -17,7 +17,7 @@ private:
     Map map;
     Player player;
     int amount_of_enemies;
-    vector <Enemy> enemies;
+    std::unique_ptr<vector <Enemy>> enemies;
 
 public:
     Game();

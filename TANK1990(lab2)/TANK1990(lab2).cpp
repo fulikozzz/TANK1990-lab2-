@@ -15,8 +15,6 @@ int* func_pointer(int ax, int bx) {
     return cx;
 }
 
-
-
 int main() {
    
     setlocale(LC_ALL, "Rus");

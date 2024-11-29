@@ -10,7 +10,7 @@ Tank::Tank() {
     this->armor = 1;
     this->bullets.resize(MAX_BULLETS_ON_SCREEN);
     for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
-        this->bullets[i].Set_Pos(this->Get_Pos());
+        this->bullets[i].Set_Pos(std::make_shared<Position>(this->Get_Pos()));
         this->bullets[i].Set_Direction(this->Get_Direction());
         this->bullets[i].Set_Speed(1);
         this->bullets[i].Set_IsActive(0);
@@ -26,7 +26,7 @@ Tank::Tank(Position pos, Direction dir, int speed, int armor) {
     this->bullets.resize(MAX_BULLETS_ON_SCREEN);
     this->bullets.resize(MAX_BULLETS_ON_SCREEN);
     for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
-        this->bullets[i].Set_Pos(this->Get_Pos());
+        this->bullets[i].Set_Pos(std::make_shared<Position>(this->Get_Pos()));
         this->bullets[i].Set_Direction(this->Get_Direction());
         this->bullets[i].Set_Speed(1);
         this->bullets[i].Set_IsActive(0);
@@ -108,7 +108,7 @@ void Tank::Move(){
 void Tank::Shoot(){
     for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
         if (bullets[i].Get_IsActive() == false) {
-            bullets[i].Set_Pos(pos);
+            bullets[i].Set_Pos(std::make_shared<Position>(pos));
             bullets[i].Set_Direction(direction);
             bullets[i].Set_IsActive(true);
             bullets[i].Move();
