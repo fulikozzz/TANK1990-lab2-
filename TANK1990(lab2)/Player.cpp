@@ -4,24 +4,13 @@
 #include <conio.h>
 #include <iostream>
 
-Player::Player() {
-    printf("Вызван конструктор производного класса\n");
-    Tank(); // вызов конструктора базового класса
-    /* Инициализируется конструктором
-    this->Set_Pos(Position(0, 0));
-    this->Set_Speed(1);
-    this->Set_Direction(UP);
-    */
-	this->lives = 3;
-	this->score = 0;
+Player::Player(): Tank(), lives(3), score(0) {
+    printf("Вызван конструктор производного класса (БП)\n");
 }
 
-Player::Player(Position pos, int speed, Direction dir, int lives, int score) {
-	this->Set_Pos(pos);
-    this->Set_Speed(speed);
-    this->Set_Direction(dir);
-	this->lives = lives;
-	this->score = score;
+Player::Player(Position pos, int speed, Direction dir, int lives, int score):
+    Tank(pos, dir, speed, 1), lives(lives), score(score) {
+    printf("Вызван конструктор производного класса (СП)\n");
 }
 
 Player::Player(const Player& other) {
@@ -105,4 +94,37 @@ bool Player::Control() {
         return true;
     }
     return false;
+}
+
+Player* Player::CloneShallow() const {
+    Player* clone = new Player(*this);
+    return clone;
+}
+
+Player* Player::CloneDeep() const {
+    Player* deepCopy = new Player(*this);
+
+    deepCopy->bullets.clear();
+    for (const Bullet& bullet : this->bullets) {
+        deepCopy->bullets.push_back(bullet); 
+    }
+    return deepCopy;
+}
+
+void Player::Print_Info() {
+    std::cout << "Player Info:" << std::endl;
+    std::cout << "Position: (" << pos.Get_PosX() << ", " << pos.Get_PosY() << ")" << std::endl;
+    std::cout << "Speed: " << speed << std::endl;
+    std::cout << "Direction: " << direction << std::endl;
+    std::cout << "Armor: " << armor << std::endl;
+    std::cout << "Lives: " << lives << std::endl;
+    std::cout << "Score: " << score << std::endl;
+    std::cout << "Bullets: " << bullets.size() << " bullets" << std::endl;
+    for (size_t i = 0; i < bullets.size(); ++i) {
+        Bullet& bullet = bullets[i];
+        std::cout << "  Bullet " << i + 1 << ": Position ("
+            << bullet.Get_Pos()->Get_PosX() << ", "
+            << bullet.Get_Pos()->Get_PosY() << "), "
+            << "Active: " << bullet.Get_IsActive() << std::endl;
+    }
 }

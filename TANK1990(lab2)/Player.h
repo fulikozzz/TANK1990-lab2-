@@ -24,5 +24,9 @@ public:
 	bool Control();
 	void Move() override;
 	void Shoot() override;
+	Player* CloneShallow() const;
+	Player* CloneDeep() const;
+
+	void Print_Info();
 };
 

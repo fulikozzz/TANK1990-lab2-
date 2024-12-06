@@ -2,7 +2,7 @@
 #include <conio.h>
 
 Tank::Tank() {
-    printf("Вызван конструктор базового класса\n");
+    printf("Вызван конструктор базового класса (БП)\n");
     this->pos.Set_PosX(1);
     this->pos.Set_PosY(1);
     this->direction = LEFT;
@@ -19,6 +19,7 @@ Tank::Tank() {
 }
 
 Tank::Tank(Position pos, Direction dir, int speed, int armor) {
+    printf("Вызван конструктор базового класса (СП)\n");
     this->pos = pos;
     this->direction = dir;
     this->speed = speed;
@@ -87,7 +88,7 @@ bool Tank::Check_Border() {
     return false;
 }
 
-void Tank::Move(){
+/*void Tank::Move() {
     Direction dir = Get_Direction();
         switch (dir) {
         case UP:
@@ -115,4 +116,4 @@ void Tank::Shoot(){
             return; 
         }
     }
-}
+}*/

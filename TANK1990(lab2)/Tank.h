@@ -34,7 +34,7 @@ public:
     void Set_Bullet(int index, const Bullet& bullet);
 
     bool Check_Border();
-    virtual void Move();
-    virtual void Shoot();
+    virtual void Move() = 0;
+    virtual void Shoot() = 0;
 };
 

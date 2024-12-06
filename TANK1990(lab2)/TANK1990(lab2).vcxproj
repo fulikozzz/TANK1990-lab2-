@@ -136,6 +136,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Position.cpp" />
+    <ClCompile Include="SpecialBonus.cpp" />
     <ClCompile Include="Tank.cpp" />
     <ClCompile Include="TANK1990(lab2).cpp" />
     <ClCompile Include="Wall.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="SpecialBonus.h" />
     <ClInclude Include="Tank.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>

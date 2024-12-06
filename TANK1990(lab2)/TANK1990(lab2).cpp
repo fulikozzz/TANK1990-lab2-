@@ -1,61 +1,79 @@
 ﻿#include "Game.h"
 #include "Bonus.h"
+#include "SpecialBonus.h"
 #include <iostream>
 #include <locale.h>
 
-//Задание с возвратом результата по указателю и по ссылке
-int& func_address(int ax, int bx) {
-    int cx = ax + bx;
-    return cx;
-}
-
-int* func_pointer(int ax, int bx) {
-    int* cx = new int;
-    *cx = ax + bx;
-    return cx;
-}
+class gun{
+public: 
+    virtual void shoot() { cout << "gun shooting" << endl; }
+};
+class pistol : public gun {
+public:
+    void shoot() override { cout << "pistol shooting" << endl; }
+};
 
 int main() {
-   
     setlocale(LC_ALL, "Rus");
-    
-    Bonus bonus1(6, 7, LIFE, 30);
-    Bonus bonus2(3, 1, INVULNERABILITY, 20);
+    /* ВИРТУАЛЬНЫЕ ФУНКЦИИ */
+    /*
+    gun g;
+    pistol p;
+    g.shoot();
+    p.shoot();
+    gun* weapon = &g;
+    weapon->shoot();
+    weapon = &p;
+    weapon->shoot();
+    free(weapon);
+    */
+    /* КЛОНИРОВАНИЕ */
+    /*
+    Player original(Position(5, 5), 2, UP, 3, 100);
+    original.Print_Info();
+    std::cout << std::endl;
 
-    // Вывод
-    std::cout << "Bonus 1: " << bonus1 << std::endl;
-    std::cout << "Bonus 2: " << bonus2 << std::endl;
-    //bonus1.operator<<(std::cout);
+    // Поверхностное клонирование
+    std::cout << "Поверхностное клонирование" << std::endl;
+    Player* shallowCopy = original.CloneShallow();
+    shallowCopy->Print_Info();
+    std::cout << std::endl;
 
-    // Сложение 
-    Bonus bonus3 = bonus1 + bonus2;
-    std::cout << "Bonus 3 (Bonus1 + Bonus2): " << bonus3 << std::endl;
+    // Глубокое клонирование
+    std::cout << "Глубокое клонирование" << std::endl;
+    Player* deepCopy = original.CloneDeep();
+    deepCopy->Print_Info();
+    std::cout << std::endl;
 
-    // Унарный минус
-    Bonus bonus4 = -bonus1;
-    std::cout << "Bonus 4 (-Bonus1): " << bonus4 << std::endl;
+    delete shallowCopy;
+    delete deepCopy;
+    */
+    /* КОНСТРУКТОРЫ БК СП из ПК СП */
+    /*Position pos = Position(1, 5);
+    Player p;
+    p = Player(pos, 1, UP, 3, 10200);
+    p.Print_Info();*/
 
-    // Равенство
-    bool areEqual = bonus1 == bonus2;
-    std::cout << "Bonus 1 и Bonus 2 равны? " << (areEqual ? "Да" : "Нет") << std::endl;
+    //Tank t;
 
-    // Присвоение
-    Bonus bonus5 = bonus1;
-    std::cout << "Bonus 5: " << bonus5 << std::endl;
-    
-    int a = 1, b = 2, c = func_address(a,b);
-    std::cout << c  << " " << &c << endl;
-    int e = 5, f = 2; int *g = func_pointer(e, f);
-    std::cout << *g << " " << &g << endl;
-    
-    Player p = Player();
-    
-    Game game,
-        game1(game); // Вызов конструктора копирования
-    std::cout << "Количество противников в game: " << game.Get_Amoun_Of_Enemies() << endl;
-    std::cout << "Количество противников в game1: " << game1.Get_Amoun_Of_Enemies() << endl;
-    
+    /* ПРИСВОЕНИЕ ОБЪЕКТУ ПРОИЗВОДНОГО КЛАССА ОБЪЕКТА БАЗОВОГО */
+    /*Bonus b1(5, 12, LIFE, 15);
+    SpecialBonus b2 (4,10, BULLET, 5, 5);
+    std::cout << b1 << std::endl;
+    std::cout << b2;
+    b2 = b1;
+    std::cout << b2 << std::endl;*/
+
+    /* ЗАПРЕТ КОНСТРУКТОРА КОПИРОВАНИЯ ПО УМОЛЧАНИЮ */
+    Bonus b1(5, 12, LIFE, 15);
+    Bonus b3(b1);
+    std::cout << b1 << std::endl;
+    std::cout << b3 << std::endl;
+
+    Game game; 
+
     game.Level_Decide();
+
     while (!game.Get_Game_Is_Over()) {
         game.Update();  
     }

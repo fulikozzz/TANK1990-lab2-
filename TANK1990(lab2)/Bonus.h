@@ -12,7 +12,7 @@ private:
 		int activity_time;
 
 public:
-	Bonus();
+	Bonus(); 
 	Bonus(int x, int y, KindOf kind, int activity_time);
 	Bonus(const Bonus& other);
 	~Bonus();

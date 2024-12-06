@@ -15,7 +15,7 @@ Bonus::Bonus(int x, int y, KindOf kind, int activity_time) {
 
 }
 
-Bonus::Bonus(const Bonus& other){
+Bonus::Bonus(const Bonus& other) {
 	this->pos = other.pos;
 	this->kind = other.kind;
 	this->activity_time = other.activity_time;
