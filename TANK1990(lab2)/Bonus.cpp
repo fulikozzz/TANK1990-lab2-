@@ -15,10 +15,16 @@ Bonus::Bonus(int x, int y, KindOf kind, int activity_time) {
 
 }
 
-Bonus::Bonus(const Bonus& other) {
+/*Bonus::Bonus(const Bonus& other) {
 	this->pos = other.pos;
 	this->kind = other.kind;
 	this->activity_time = other.activity_time;
+}*/
+
+Bonus::Bonus(const Bonus& other, int x) {
+    this->pos = other.pos;
+    this->kind = other.kind;
+    this->activity_time = other.activity_time;
 }
 
 Bonus::~Bonus() {
@@ -42,7 +48,7 @@ void Bonus::Set_Activity_Time(int activity_time) { this->activity_time = activit
 
 
 /* Перегрузка операторов*/
-
+/*
 Bonus& Bonus::operator=(Bonus other) {
     this->pos = other.pos;
     this->kind = other.kind;
@@ -74,7 +80,7 @@ bool Bonus::operator==(Bonus& other) {
         this->kind == other.kind;
 
 }
-
+*/
 std::ostream& operator<<(std::ostream& output, Bonus& bonus) {
     output << "Bonus [Позиция: (" << bonus.pos.Get_PosX() << ", " << bonus.pos.Get_PosY()
         << "), Вид: " << bonus.kind

@@ -19,8 +19,9 @@ public:
     Tank();
     Tank(Position pos, Direction direction, int speed, int armor);
     Tank(const Tank& other);
-    virtual ~Tank();
-    
+    //virtual ~Tank();
+    ~Tank();
+
     Position Get_Pos();
     Direction Get_Direction();
     int Get_Speed();

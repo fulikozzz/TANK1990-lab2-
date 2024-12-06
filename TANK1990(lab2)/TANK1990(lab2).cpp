@@ -65,10 +65,11 @@ int main() {
     std::cout << b2 << std::endl;*/
 
     /* ЗАПРЕТ КОНСТРУКТОРА КОПИРОВАНИЯ ПО УМОЛЧАНИЮ */
-    Bonus b1(5, 12, LIFE, 15);
-    Bonus b3(b1);
+    /*Bonus b1(5, 12, LIFE, 15);
+    //Bonus b3(b1);
+    Bonus b3(b1,1);
     std::cout << b1 << std::endl;
-    std::cout << b3 << std::endl;
+    std::cout << b3 << std::endl;*/
 
     Game game; 
 

@@ -14,7 +14,8 @@ private:
 public:
 	Bonus(); 
 	Bonus(int x, int y, KindOf kind, int activity_time);
-	Bonus(const Bonus& other);
+	Bonus(const Bonus& other) = delete;
+	Bonus(const Bonus& other, int x);
 	~Bonus();
 
 	Position Get_Pos();
@@ -26,10 +27,10 @@ public:
 	void Set_Activity_Time(int time);		
 
 	// Перегрузка операторов
-    Bonus& operator=(Bonus other);
-	Bonus operator+(Bonus other);
-	Bonus operator-();
-	bool operator==(Bonus& other);
+    //Bonus& operator=(Bonus other);
+	//Bonus operator+(Bonus other);
+	//Bonus operator-();
+	//bool operator==(Bonus& other);
 	/*std::ostream& operator<<(std::ostream& output) {
 		output << "Bonus [Позиция: (" << pos.Get_PosX() << ", " << pos.Get_PosY()
 			<< "), Вид: " << kind
