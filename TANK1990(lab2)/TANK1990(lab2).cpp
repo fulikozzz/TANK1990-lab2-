@@ -71,6 +71,21 @@ int main() {
     std::cout << b1 << std::endl;
     std::cout << b3 << std::endl;*/
 
+    /* ВИРТУАЛЬНЫЙ ДЕСТРУКТОР */
+    /*std::cout << "\tЧерез указатели\n" << std::endl;
+    Bonus* b1 = new Bonus();
+    b1->~Bonus();
+    std::cout << std::endl;
+    Bonus* b2 = new SpecialBonus();
+    b2->~Bonus();
+    std::cout << "\n\tЧерез объекты\n" << std::endl;
+    Bonus b3;
+    b3.~Bonus();
+    std::cout << std::endl;
+    SpecialBonus b4;
+    b4.~SpecialBonus();*/
+    
+    
     Game game; 
 
     game.Level_Decide();

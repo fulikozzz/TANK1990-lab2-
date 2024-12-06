@@ -16,7 +16,7 @@ public:
 	Bonus(int x, int y, KindOf kind, int activity_time);
 	Bonus(const Bonus& other) = delete;
 	Bonus(const Bonus& other, int x);
-	~Bonus();
+	virtual ~Bonus();
 
 	Position Get_Pos();
 	KindOf Get_Kind();

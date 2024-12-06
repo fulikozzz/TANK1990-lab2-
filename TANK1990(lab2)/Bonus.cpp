@@ -5,6 +5,7 @@ Bonus::Bonus() {
 	this->pos.Set_PosY(0);
 	this->kind = LIFE;
 	this->activity_time = 0;
+    std::cout << "Бонус создан" << std::endl;
 }
 
 Bonus::Bonus(int x, int y, KindOf kind, int activity_time) {
@@ -28,7 +29,7 @@ Bonus::Bonus(const Bonus& other, int x) {
 }
 
 Bonus::~Bonus() {
-
+    std::cout << "Бонус удален" << std::endl;
 }
 
 Position Bonus::Get_Pos() { return pos; }

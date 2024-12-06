@@ -1,12 +1,16 @@
 #include "SpecialBonus.h"
 #include "ostream"
 
-SpecialBonus::SpecialBonus() : Bonus(), radius(0) {}
+SpecialBonus::SpecialBonus() : Bonus(), radius(0) {
+    std::cout << "Спецбонус создан" << std::endl;
+}
 
 SpecialBonus::SpecialBonus(int x, int y, KindOf kind, int activity_time, int radius) : 
     Bonus(x, y, kind, activity_time), radius(radius) {}
 
-SpecialBonus::~SpecialBonus() {}
+SpecialBonus::~SpecialBonus() {
+    std::cout << "Спецбонус удален" << std::endl;
+}
 
 int SpecialBonus::Get_Extra_Points() const {
     return radius;
