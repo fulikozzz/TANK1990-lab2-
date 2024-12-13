@@ -1,6 +1,8 @@
 #pragma once
 #include "Position.h"
 #include "Bullet.h"
+#include "IMoveble.h"
+#include "MoveWithKeyboard.h"
 
 #include <vector>
 
@@ -14,13 +16,18 @@ protected:
     int speed;
     int armor;
     std::vector<Bullet> bullets;
+    IMoveble* behaviour;
 
 public:
     Tank();
-    Tank(Position pos, Direction direction, int speed, int armor);
+    Tank(IMoveble* behaviour, Position pos, Direction direction, int speed, int armor);
     Tank(const Tank& other);
-    //virtual ~Tank();
-    ~Tank();
+    virtual ~Tank();
+    //~Tank();
+
+    void Set_Behaviour(IMoveble* behaviour) {
+        this->behaviour = behaviour;
+    }
 
     Position Get_Pos();
     Direction Get_Direction();

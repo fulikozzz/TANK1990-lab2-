@@ -1,16 +1,19 @@
 #pragma once
 #include "Tank.h"
+//#include "IMoveble.h"
+//#include "MoveWithKeyboard.h"
 
 class Player : public Tank
 {
 private:
 	//Tank tank;
+	//IMoveble* behaviour;
 	int lives;
 	int score;
 
 public:
 	Player();
-	Player(Position pos, int speed, Direction dir, int lives, int score);
+	Player(/*IMoveble* behaviour, */Position pos, int speed, Direction dir, int lives, int score);
 	Player(const Player& other);
 	~Player();
 

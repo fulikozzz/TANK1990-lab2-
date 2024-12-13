@@ -1,13 +1,15 @@
 #include "Enemy.h"
 
 Enemy::Enemy() {
+	this->behaviour = new MoveWithAI();
 	this->Set_Pos(Position(5, 5));
 	this->Set_Speed(1);
 	this->Set_Direction(UP);
 	this->armor = 1;
 }
 
-Enemy::Enemy(Position pos, int speed, Direction dir, int armor) {
+Enemy::Enemy(IMoveble* behaviour, Position pos, int speed, Direction dir, int armor) {
+	this->behaviour = behaviour;
 	this->Set_Pos(pos);
 	this->Set_Speed(speed);
 	this->Set_Direction(dir);
@@ -34,6 +36,10 @@ int Enemy::Get_Armor() { return armor; }
 void Enemy::Set_Armor(int armor) { this->armor = armor; }
 
 void Enemy::Move() {
+	Set_Direction((Direction)(rand() % 4));
+	if (!Check_Border()) {
+		behaviour->Move(pos, direction, speed);
+	}
 	/* Здесь будет реализация логики движения противника */
 }
 

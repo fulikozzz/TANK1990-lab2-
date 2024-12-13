@@ -10,7 +10,6 @@ Game::Game() {
     this->amount_of_enemies = 2;
     this->map = Map();
     this->player = Player();
-    //**
     enemies = std::make_unique<std::vector<Enemy>>();
     Initialize_Enemies(amount_of_enemies);
 }
@@ -85,8 +84,8 @@ bool Game::Bullet_Hit(){
     for (int i = 0; i < this->amount_of_enemies; i++) {
         for (Bullet& bullet : this->player.Get_Bullets()) {
            if (bullet.Get_IsActive() &&
-                bullet.Get_Pos()->Get_PosX() == this->enemies->at(i).Get_Pos().Get_PosX() &&
-                bullet.Get_Pos()->Get_PosY() == this->enemies->at(i).Get_Pos().Get_PosY()) {
+                bullet.Get_Pos().Get_PosX() == this->enemies->at(i).Get_Pos().Get_PosX() &&
+                bullet.Get_Pos().Get_PosY() == this->enemies->at(i).Get_Pos().Get_PosY()) {
                 
                 bullet.Set_IsActive(false);
                 enemies->erase(enemies->begin() + i);
@@ -105,6 +104,7 @@ void Game::Update() {
     if (player.Control()) {
         map.Draw(level, player, Get_Enemies());
         for (int i = 0; i < amount_of_enemies; i++) {
+            enemies->at(i).Move();
             std::cout << "ѕротивник " << i + 1
                 << " находитс€ на координатах ("
                 << enemies->at(i).Get_Pos().Get_PosX() << ";"
@@ -115,10 +115,10 @@ void Game::Update() {
 
     for (Bullet& bullet : player.Get_Bullets()) {
         if (bullet.Get_IsActive()) {
-            if (Bullet_Hit()) std::cout << "—нар€д попал в противника на позиции (" << bullet.Get_Pos()->Get_PosX() << ";" << bullet.Get_Pos()->Get_PosY() << ") и уничтожил его. " << std::endl;
+            if (Bullet_Hit()) std::cout << "—нар€д попал в противника на позиции (" << bullet.Get_Pos().Get_PosX() << ";" << bullet.Get_Pos().Get_PosY() << ") и уничтожил его. " << std::endl;
             bullet.Move();
-            std::cout << " оординаты снар€да (" << bullet.Get_Pos()->Get_PosX() << ";" 
-                << bullet.Get_Pos()->Get_PosY() << ") в направлении (" << bullet.Get_Direction() << ")" << std::endl;
+            std::cout << " оординаты снар€да (" << bullet.Get_Pos().Get_PosX() << ";" 
+                << bullet.Get_Pos().Get_PosY() << ") в направлении (" << bullet.Get_Direction() << ")" << std::endl;
         }
     }
 

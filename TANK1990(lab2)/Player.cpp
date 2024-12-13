@@ -4,13 +4,11 @@
 #include <conio.h>
 #include <iostream>
 
-Player::Player(): Tank(), lives(3), score(0) {
-    printf("Вызван конструктор производного класса (БП)\n");
+Player::Player(): Tank(), lives(3), score(0){
 }
 
-Player::Player(Position pos, int speed, Direction dir, int lives, int score):
-    Tank(pos, dir, speed, 1), lives(lives), score(score) {
-    printf("Вызван конструктор производного класса (СП)\n");
+Player::Player(Position pos, int speed, Direction dir, int lives, int score) :
+    Tank(new MoveWithKeyboard(), pos, dir, speed, 1), lives(lives), score(score) {
 }
 
 Player::Player(const Player& other) {
@@ -23,7 +21,6 @@ Player::Player(const Player& other) {
 }
 
 Player::~Player() { 
-
 }
 
 //Tank& Player::Get_Tank() { return this->tank; }
@@ -39,7 +36,10 @@ void Player::Set_Lives(int lives) { this->lives = lives; }
 void Player::Set_Score(int score) { this->score = score; }
 
 void Player::Move() {
-    Direction dir = Get_Direction();
+    if (!Check_Border()) {
+        behaviour->Move(this->pos, this->direction, this->speed);
+    }
+    /*Direction dir = Get_Direction();
     switch (dir) {
     case UP:
         if (!Check_Border()) pos.Set_PosY(pos.Get_PosY() - Get_Speed());
@@ -53,13 +53,13 @@ void Player::Move() {
     case LEFT:
         if (!Check_Border()) pos.Set_PosX(pos.Get_PosX() - Get_Speed());
         break;
-    }
+    }*/
 }
 
 void Player::Shoot() {
     for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
         if (bullets[i].Get_IsActive() == false) {
-            bullets[i].Set_Pos(std::make_shared<Position>(pos));
+            bullets[i].Set_Pos(Position(pos));
             bullets[i].Set_Direction(direction);
             bullets[i].Set_IsActive(true);
             bullets[i].Move();
@@ -123,8 +123,8 @@ void Player::Print_Info() {
     for (size_t i = 0; i < bullets.size(); ++i) {
         Bullet& bullet = bullets[i];
         std::cout << "  Bullet " << i + 1 << ": Position ("
-            << bullet.Get_Pos()->Get_PosX() << ", "
-            << bullet.Get_Pos()->Get_PosY() << "), "
+            << bullet.Get_Pos().Get_PosX() << ", "
+            << bullet.Get_Pos().Get_PosY() << "), "
             << "Active: " << bullet.Get_IsActive() << std::endl;
     }
 }

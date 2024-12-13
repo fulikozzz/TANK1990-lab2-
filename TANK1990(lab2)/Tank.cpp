@@ -2,7 +2,7 @@
 #include <conio.h>
 
 Tank::Tank() {
-    printf("Вызван конструктор базового класса (БП)\n");
+    this->behaviour = new MoveWithKeyboard();
     this->pos.Set_PosX(1);
     this->pos.Set_PosY(1);
     this->direction = LEFT;
@@ -10,7 +10,7 @@ Tank::Tank() {
     this->armor = 1;
     this->bullets.resize(MAX_BULLETS_ON_SCREEN);
     for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
-        this->bullets[i].Set_Pos(std::make_shared<Position>(this->Get_Pos()));
+        this->bullets[i].Set_Pos(Position(this->Get_Pos()));
         this->bullets[i].Set_Direction(this->Get_Direction());
         this->bullets[i].Set_Speed(1);
         this->bullets[i].Set_IsActive(0);
@@ -18,16 +18,15 @@ Tank::Tank() {
     }
 }
 
-Tank::Tank(Position pos, Direction dir, int speed, int armor) {
-    printf("Вызван конструктор базового класса (СП)\n");
+Tank::Tank(IMoveble* behaviour, Position pos, Direction dir, int speed, int armor) {
+    this->behaviour = behaviour;
     this->pos = pos;
     this->direction = dir;
     this->speed = speed;
     this->armor = armor;
     this->bullets.resize(MAX_BULLETS_ON_SCREEN);
-    this->bullets.resize(MAX_BULLETS_ON_SCREEN);
     for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
-        this->bullets[i].Set_Pos(std::make_shared<Position>(this->Get_Pos()));
+        this->bullets[i].Set_Pos(Position(this->Get_Pos()));
         this->bullets[i].Set_Direction(this->Get_Direction());
         this->bullets[i].Set_Speed(1);
         this->bullets[i].Set_IsActive(0);

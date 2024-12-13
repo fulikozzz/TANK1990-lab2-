@@ -1,5 +1,7 @@
 #pragma once
 #include "Tank.h"
+#include "IMoveble.h"
+#include "MoveWithAI.h"
 
 class Enemy : public Tank
 {
@@ -9,7 +11,7 @@ private:
 
 public:
 	Enemy();
-	Enemy(Position pos, int speed, Direction dir, int armor);
+	Enemy(IMoveble* behavour, Position pos, int speed, Direction dir, int armor);
 	Enemy(const Enemy& other);
 	~Enemy();
 

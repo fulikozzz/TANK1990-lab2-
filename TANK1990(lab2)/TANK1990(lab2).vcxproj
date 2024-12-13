@@ -131,9 +131,13 @@
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Bonus.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Direction.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MoveWithAI.cpp" />
+    <ClCompile Include="MoveWIthEnergy.cpp" />
+    <ClCompile Include="MoveWithKeyboard.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="SpecialBonus.cpp" />
@@ -145,9 +149,13 @@
     <ClInclude Include="Base.h" />
     <ClInclude Include="Bonus.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Direction.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MoveWithAI.h" />
+    <ClInclude Include="MoveWIthEnergy.h" />
+    <ClInclude Include="MoveWithKeyboard.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="SpecialBonus.h" />
