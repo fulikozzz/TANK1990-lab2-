@@ -5,6 +5,7 @@
 #include <iostream>
 
 Player::Player(): Tank(), lives(3), score(0){
+    behaviour = new MoveWithKeyboard();
 }
 
 Player::Player(Position pos, int speed, Direction dir, int lives, int score) :

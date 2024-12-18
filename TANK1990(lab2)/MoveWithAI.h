@@ -1,12 +1,12 @@
 #pragma once
 #include "IMoveble.h"
-#include <iostream>
 
 class MoveWithAI : public IMoveble
 {
 public:
 	void Move(Position& pos, Direction dir, int speed) override {
-		switch (dir)
+		Direction direction = (Direction)(rand() % 4);
+		switch (direction)
 		{
 		case LEFT:
 			if (pos.Get_PosX() > 0)

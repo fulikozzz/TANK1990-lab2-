@@ -36,11 +36,9 @@ int Enemy::Get_Armor() { return armor; }
 void Enemy::Set_Armor(int armor) { this->armor = armor; }
 
 void Enemy::Move() {
-	Set_Direction((Direction)(rand() % 4));
 	if (!Check_Border()) {
 		behaviour->Move(pos, direction, speed);
 	}
-	/* Здесь будет реализация логики движения противника */
 }
 
 void Enemy::Shoot() {

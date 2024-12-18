@@ -3,6 +3,7 @@
 #include "Bullet.h"
 #include "IMoveble.h"
 #include "MoveWithKeyboard.h"
+#include "MoveWithAI.h"
 
 #include <vector>
 
@@ -23,7 +24,6 @@ public:
     Tank(IMoveble* behaviour, Position pos, Direction direction, int speed, int armor);
     Tank(const Tank& other);
     virtual ~Tank();
-    //~Tank();
 
     void Set_Behaviour(IMoveble* behaviour) {
         this->behaviour = behaviour;

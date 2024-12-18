@@ -2,7 +2,7 @@
 #include <conio.h>
 
 Tank::Tank() {
-    this->behaviour = new MoveWithKeyboard();
+    this->behaviour = new MoveWithAI();
     this->pos.Set_PosX(1);
     this->pos.Set_PosY(1);
     this->direction = LEFT;

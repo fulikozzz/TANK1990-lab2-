@@ -1,7 +1,4 @@
 #pragma once
-#include "Position.h"
-#include "Direction.h"
-
 #include "IMoveble.h"
 
 class MoveWithEnergy : public IMoveble {

@@ -1,9 +1,5 @@
 #pragma once
 #include "IMoveble.h"
-#include "Position.h"
-#include "Direction.h"
-
-#include <iostream>
 
 class MoveWithKeyboard : public IMoveble
 {
