@@ -17,7 +17,7 @@ private:
     Map map;
     Player player;
     int amount_of_enemies;
-    std::unique_ptr<vector <Enemy>> enemies;
+    std::vector<Enemy> enemies;
 
 public:
     Game();

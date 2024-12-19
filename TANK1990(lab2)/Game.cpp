@@ -10,7 +10,7 @@ Game::Game() {
     this->amount_of_enemies = 2;
     this->map = Map();
     this->player = Player();
-    enemies = std::make_unique<std::vector<Enemy>>();
+    enemies = std::vector<Enemy>();
     Initialize_Enemies(amount_of_enemies);
 }
 
@@ -20,7 +20,7 @@ Game::Game(const Game& other) {
     this->amount_of_enemies = other.amount_of_enemies + 2; // Для отражения работы конструктора копирования
     this->map = other.map;
     this->player = other.player;
-    enemies = std::make_unique<std::vector<Enemy>>(*other.enemies);
+    enemies = std::vector<Enemy>(other.enemies);
     //this->enemies = other.enemies;
     Initialize_Enemies(this->amount_of_enemies);
     std::cout << "Вызов конструктора копирования" << endl;
@@ -38,7 +38,7 @@ int Game::Get_Amoun_Of_Enemies() { return amount_of_enemies; }
 
 Player& Game::Get_Player() { return player; }
 
-std::vector<Enemy>& Game::Get_Enemies() { return *enemies; /* return enemies;*/ }
+std::vector<Enemy>& Game::Get_Enemies() { return enemies; /* return enemies;*/ }
 
 Map Game::Get_Map() { return map; }
 
@@ -48,30 +48,25 @@ void Game::Set_Level(int new_level) { level = new_level; }
 
 void Game::Set_Amoun_Of_Enemies(int amount_of_enemies) { this->amount_of_enemies = amount_of_enemies; }
 
-void Game::Set_Enemies(const std::vector<Enemy>& newEnemies) { *enemies = newEnemies; /**enemies = newEnemies;*/ }
+void Game::Set_Enemies(const std::vector<Enemy>& newEnemies) { enemies = newEnemies; /**enemies = newEnemies;*/ }
 
 void Game::Initialize_Enemies(int amount_of_enemies) {
-    //enemies.resize(amount_of_enemies);
-    enemies->resize(amount_of_enemies); 
+    enemies.resize(amount_of_enemies); 
 
-    for (int i = 0; i < amount_of_enemies; i++) {
+    for (Enemy& el : enemies){
         Enemy enemy; 
-        //Tank tank;
         Position pos(rand() % 20, rand() % 20);
         enemy.Set_Pos(pos);
         enemy.Set_Direction(UP); 
         enemy.Set_Speed(1); 
 
-        //enemies[i] = enemy;
-        //enemies[i].Set_Armor(1);
-        enemies->at(i) = enemy;
-        enemies->at(i).Set_Armor(1);
+        el = enemy;
+        el.Set_Armor(1);
     }
 }
 
 bool Game::Victory_Check() {
-    // if(enemies.empty()){
-    if (enemies->empty()) {
+    if (enemies.empty()) {
         game_is_over = true;
         return true;
     }
@@ -84,11 +79,11 @@ bool Game::Bullet_Hit(){
     for (int i = 0; i < this->amount_of_enemies; i++) {
         for (Bullet& bullet : this->player.Get_Bullets()) {
            if (bullet.Get_IsActive() &&
-                bullet.Get_Pos().Get_PosX() == this->enemies->at(i).Get_Pos().Get_PosX() &&
-                bullet.Get_Pos().Get_PosY() == this->enemies->at(i).Get_Pos().Get_PosY()) {
+                bullet.Get_Pos().Get_PosX() == this->enemies.at(i).Get_Pos().Get_PosX() &&
+                bullet.Get_Pos().Get_PosY() == this->enemies.at(i).Get_Pos().Get_PosY()) {
                 
                 bullet.Set_IsActive(false);
-                enemies->erase(enemies->begin() + i);
+                enemies.erase(enemies.begin() + i);
                 this->amount_of_enemies -= 1;
 
                 hitDetected = true;
@@ -104,12 +99,12 @@ void Game::Update() {
     if (player.Control()) {
         map.Draw(level, player, Get_Enemies());
         for (int i = 0; i < amount_of_enemies; i++) {
-            enemies->at(i).Move();
+            enemies.at(i).Move();
             std::cout << "Противник " << i + 1
                 << " находится на координатах ("
-                << enemies->at(i).Get_Pos().Get_PosX() << ";"
-                << enemies->at(i).Get_Pos().Get_PosY() << ") с направлением "
-                << enemies->at(i).Get_Direction() << std::endl;
+                << enemies.at(i).Get_Pos().Get_PosX() << ";"
+                << enemies.at(i).Get_Pos().Get_PosY() << ") с направлением "
+                << enemies.at(i).Get_Direction() << std::endl;
         }
     }
 

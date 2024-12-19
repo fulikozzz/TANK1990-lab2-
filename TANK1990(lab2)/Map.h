@@ -5,12 +5,14 @@
 #include "Enemy.h"
 
 #include <string>
+#include <array>
 using namespace std;
 
 class Map
 {
 private:
-    Wall walls[20][20];
+    //Wall walls[20][20];
+    std::array<std::array<Wall, 20>, 20> walls;
     Base player_base;
     Base enemy_bases[3];
 

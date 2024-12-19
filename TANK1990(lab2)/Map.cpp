@@ -9,9 +9,9 @@
 Map::Map() {
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 20; j++) {
-            this->walls[i][j].Get_Pos().Set_PosX(i);
-            this->walls[i][j].Get_Pos().Set_PosY(j);
-            this->walls[i][j].Set_Type(EMPTY);
+            walls[i][j].Get_Pos().Set_PosX(i);
+            walls[i][j].Get_Pos().Set_PosY(j);
+            walls[i].fill(Wall(i,j,EMPTY));
         }
     }
     Position pos(10,20);

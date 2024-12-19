@@ -2,19 +2,19 @@
 #include <conio.h>
 
 Tank::Tank() {
-    this->behaviour = new MoveWithAI();
-    this->pos.Set_PosX(1);
-    this->pos.Set_PosY(1);
-    this->direction = LEFT;
-    this->speed = 1;
-    this->armor = 1;
-    this->bullets.resize(MAX_BULLETS_ON_SCREEN);
+    behaviour = new MoveWithAI();
+    pos.Set_PosX(1);
+    pos.Set_PosY(1);
+    direction = LEFT;
+    speed = 1;
+    armor = 1;
+    bullets.resize(MAX_BULLETS_ON_SCREEN);
     for (int i = 0; i < MAX_BULLETS_ON_SCREEN; i++) {
-        this->bullets[i].Set_Pos(Position(this->Get_Pos()));
-        this->bullets[i].Set_Direction(this->Get_Direction());
-        this->bullets[i].Set_Speed(1);
-        this->bullets[i].Set_IsActive(0);
-        this->bullets[i].Set_BulletType(0);
+        bullets[i].Set_Pos(Position(this->Get_Pos()));
+        bullets[i].Set_Direction(this->Get_Direction());
+        bullets[i].Set_Speed(1);
+        bullets[i].Set_IsActive(0);
+        bullets[i].Set_BulletType(0);
     }
 }
 
@@ -70,7 +70,12 @@ void Tank::Set_Speed(int speed) { this->speed = speed; }
 void Tank::Set_Armor(int armor) { this->armor = armor; }
 
 void Tank::Set_Bullet(int index, const Bullet& bullet) {
-    if (index >= 0 && index < MAX_BULLETS_ON_SCREEN) this->bullets[index] = bullet;
+    try {
+        bullets.at(index) = bullet;
+    }
+    catch (std::out_of_range& ex) {
+        std::cout << "index is out of range" << std::endl;
+    }
 }
 
 bool Tank::Check_Border() {
